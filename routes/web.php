@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.homepage');
-});
+Route::view('/', 'pages.homepage')->name('home');
+Route::view('salons', 'pages.salons')->name('salons');
+Route::view('about', 'pages.about')->name('about');
+Route::view('contacts', 'pages.contacts')->name('contacts');
+Route::view('sales-terms', 'pages.sales-terms')->name('sales-terms');
+Route::view('finance-department', 'pages.finance-department')->name('finance-department');
+Route::view('for-clients', 'pages.for-clients')->name('for-clients');

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('main_css')
+    <link href="/css/main_page_template_styles.css" rel="stylesheet">
+@endpush
+
 @section('content')
     <section class="bg-white">
         <div data-slick-carousel>
