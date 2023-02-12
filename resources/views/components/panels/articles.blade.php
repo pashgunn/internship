@@ -1,7 +1,8 @@
+@props(['articles'])
 @foreach($articles as $article)
-    <x-panels.news-car :$article src="/pictures/car_ceed.png">
+    <x-panels.article-car :$article src="/pictures/car_ceed.png">
         <x-panels.tag>Киа Seed</x-panels.tag>
-    </x-panels.news-car>
+    </x-panels.article-car>
 @endforeach
 
 {{--            <x-panels.news-car src="/pictures/car_k900.png">--}}

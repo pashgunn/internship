@@ -51,7 +51,7 @@
             <span class="inline-block text-gray-200 pl-1"> / <a href="news.html" class="inline-block pl-1 text-gray-200 hover:text-orange"><b>Все</b></a></span>
         </div>
         <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-6">
-            <x-panels.news :articles="$articles"/>
+            <x-panels.articles :articles="$articles"/>
         </div>
     </section>
 @endsection
