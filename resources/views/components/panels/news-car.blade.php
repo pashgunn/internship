@@ -5,18 +5,17 @@
     <div class="px-4 flex flex-col justify-between leading-normal">
         <div class="mb-8">
             <div class="text-white font-bold text-xl mb-2">
-                <a class="hover:text-orange" href="article.html">Парадигма просветляет архетип</a>
+                <a class="hover:text-orange" href="article.html">{{ $article->title }}</a>
             </div>
             <p class="text-gray-300 text-base">
-                <a class="hover:text-orange" href="article.html">Парадигма просветляет архетип, таким
-                    образом, стратегия поведения, выгодная отдельному человеку</a>
+                <a class="hover:text-orange" href="article.html">{{ $article->description }}</a>
             </p>
         </div>
         <div>
             {{ $slot }}
         </div>
         <div class="flex items-center">
-            <p class="text-sm text-gray-400 italic">01 Янв 2013</p>
+            <p class="text-sm text-gray-400 italic">{{ $article->published_at->locale('ru')->isoFormat('DD MMM YYYY') }}</p>
         </div>
     </div>
 </div>
