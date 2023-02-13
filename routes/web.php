@@ -10,3 +10,4 @@ Route::get('finance-department',   ['uses' => 'PagesController@financeDepartment
 Route::get('for-clients',          ['uses' => 'PagesController@forClients',           'as' => 'for-clients']);
 Route::get('salons',               ['uses' => 'PagesController@salons',               'as' => 'salons']);
 Route::get('articles',             ['uses' => 'PagesController@articles',             'as' => 'articles']);
+Route::get('articles/{article}',   ['uses' => 'PagesController@show',                 'as' => 'article-show']);
