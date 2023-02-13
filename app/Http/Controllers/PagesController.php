@@ -41,4 +41,10 @@ class PagesController extends Controller
     {
         return view('pages.salons');
     }
+
+    public function articles()
+    {
+        $articles = Article::latest('published_at')->limit(3)->get();
+        return view('pages.articles', compact('articles'));
+    }
 }
