@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('title')->comment('Название новости. Обязательное текстовое поле не менее 5 и не более 100 символов');
             $table->string('description')->comment('Краткое описание новости. Обязательное текстовое поле не более 255 символов.');
             $table->text('body')->comment('Детальное описание. Обязательное текстовое поле');
-            $table->date('published_at')->nullable()->comment('Дата публикации новости');
+            $table->dateTime('published_at')->nullable()->comment('Дата публикации новости');
             $table->timestamps();
         });
     }
