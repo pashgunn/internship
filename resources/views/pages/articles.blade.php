@@ -3,6 +3,8 @@
 @section('page.title', 'Все новости')
 
 @section('inner.content')
+    <x-panels.success/>
+
     <div class="space-y-4">
         <x-panels.articles-all :$articles/>
 
