@@ -1,3 +1,3 @@
-<li class="group">
-    {{ $slot }}
-</li>
+    <li class="group">
+        {{ $slot }}
+    </li>
