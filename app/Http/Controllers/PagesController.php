@@ -64,15 +64,10 @@ class PagesController extends Controller
 
     public function store(ArticlePostRequest $request): RedirectResponse
     {
-        $validated = $request->validated();
-
-        Article::create([
-            'slug' => Str::slug($validated['title']),
-            'title' => $validated['title'],
-            'description' => $validated['description'],
-            'body' => $validated['body'],
-            'published_at' => $request->input('checkbox') ? $request->input('published_at') : null
-        ]);
+        $fields = $request->validated();
+        $fields['slug'] = Str::slug($fields['title']);
+        $fields['published_at'] = $request->input('checkbox') ? $request->input('published_at') : null;
+        Article::create($fields);
 
         return redirect()->route("articles")
             ->with('success', 'Новость успешно создана');
