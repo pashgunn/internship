@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
+
 class PagesController extends Controller
 {
     public function homepage()
     {
-        return view('pages.homepage');
+        $articles = Article::latest('published_at')->limit(3)->get();
+        return view('pages.homepage', compact('articles'));
     }
 
     public function about()
@@ -37,5 +40,11 @@ class PagesController extends Controller
     public function salons()
     {
         return view('pages.salons');
+    }
+
+    public function articles()
+    {
+        $articles = Article::latest('published_at')->limit(3)->get();
+        return view('pages.articles', compact('articles'));
     }
 }

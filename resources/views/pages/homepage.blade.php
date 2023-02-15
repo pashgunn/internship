@@ -48,23 +48,10 @@
     <section class="news-block-inverse px-6 py-4">
         <div>
             <p class="inline-block text-3xl text-white font-bold mb-4">Новости</p>
-            <span class="inline-block text-gray-200 pl-1"> / <a href="news.html" class="inline-block pl-1 text-gray-200 hover:text-orange"><b>Все</b></a></span>
+            <span class="inline-block text-gray-200 pl-1"> / <a href="{{ route('articles') }}" class="inline-block pl-1 text-gray-200 hover:text-orange"><b>Все</b></a></span>
         </div>
         <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-6">
-            <x-panels.news-car src="/pictures/car_ceed.png">
-                <x-panels.tag>Киа Seed</x-panels.tag>
-            </x-panels.news-car>
-
-            <x-panels.news-car src="/pictures/car_k900.png">
-                <x-panels.tag>Парадигма</x-panels.tag>
-                <x-panels.tag>Архетип</x-panels.tag>
-                <x-panels.tag>Киа Seed</x-panels.tag>
-            </x-panels.news-car>
-
-            <x-panels.news-car src="/pictures/car_soul.png">
-                <x-panels.tag>Это</x-panels.tag>
-                <x-panels.tag>Теги</x-panels.tag>
-            </x-panels.news-car>
+            <x-panels.articles-main :$articles/>
         </div>
     </section>
 @endsection
