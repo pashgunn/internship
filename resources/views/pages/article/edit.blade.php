@@ -9,9 +9,7 @@
         <x-panels.error/>
 
         <form method="POST" action="{{ route('articles.update', $article->slug) }}">
-            @csrf
             @method('PATCH')
-
             <x-panels.article-groups :$article/>
         </form>
 

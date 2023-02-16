@@ -66,7 +66,7 @@ class PagesController extends Controller
     public function store(ArticlePostRequest $request): RedirectResponse
     {
         $fields = $request->validated();
-        $fields['published_at'] = $request->input('checkbox') ? $request->input('published_at') : null;
+        $fields['published_at'] = $request->getPublishedAt();
         Article::create($fields);
 
         return redirect()->route("articles")
@@ -82,7 +82,7 @@ class PagesController extends Controller
     {
         $fields = $request->validated();
         $fields['slug'] = Str::slug($fields['title']);
-        $fields['published_at'] = $request->input('checkbox') ? $request->input('published_at') : null;
+        $fields['published_at'] = $request->getPublishedAt();
         try {
             $article->update($fields);
         } catch (QueryException $exception) {

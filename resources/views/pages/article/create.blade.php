@@ -9,7 +9,6 @@
     <x-panels.error/>
 
     <form method="post" action="{{ route('articles.store') }}">
-        @csrf
         <x-panels.article-groups :article="new \App\Models\Article()"/>
     </form>
 </div>

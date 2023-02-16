@@ -7,6 +7,11 @@ use Illuminate\Support\Str;
 
 class ArticlePostRequest extends FormRequest
 {
+    public function getPublishedAt()
+    {
+        return $this->input('checkbox') ? $this->input('published_at') : null;
+    }
+
     /**
      * Prepare the data for validation.
      *
