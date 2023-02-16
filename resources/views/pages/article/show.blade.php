@@ -8,7 +8,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-3 w-3 mx-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
         </svg>
-        <a class="hover:text-orange" href="{{ route('homepage') }}">Новости</a>
+        <a class="hover:text-orange" href="{{ route('articles.index') }}">Новости</a>
         <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-3 w-3 mx-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
         </svg>
@@ -18,6 +18,8 @@
 
 @section('inner.content')
         <div class="space-y-4">
+
+            <a class="hover:text-orange" href="{{ route('articles.edit', $article->slug) }}">Редактирование новости</a>
 
             <img src="{{ asset('/pictures/car_new_stinger.png') }}" alt="" title="">
 
@@ -29,7 +31,7 @@
             </div>
 
         <div class="mt-4">
-            <a class="inline-flex items-center text-orange hover:opacity-75" href="{{ route('articles') }}">
+            <a class="inline-flex items-center text-orange hover:opacity-75" href="{{ route('articles.index') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
                 </svg>

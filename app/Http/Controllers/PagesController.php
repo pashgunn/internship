@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ArticlePostRequest;
 use App\Models\Article;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Str;
 
@@ -52,24 +53,51 @@ class PagesController extends Controller
         return view('pages.articles', compact('articles'));
     }
 
-    public function show(Article $article): View
-    {
-        return view('pages.article.show', compact('article'));
-    }
-
     public function create(): View
     {
         return view('pages.article.create');
     }
 
+    public function show(Article $article): View
+    {
+        return view('pages.article.show', compact('article'));
+    }
+
     public function store(ArticlePostRequest $request): RedirectResponse
     {
         $fields = $request->validated();
-        $fields['slug'] = Str::slug($fields['title']);
         $fields['published_at'] = $request->input('checkbox') ? $request->input('published_at') : null;
         Article::create($fields);
 
         return redirect()->route("articles")
             ->with('success', 'Новость успешно создана');
+    }
+
+    public function edit(Article $article): View
+    {
+        return view('pages.article.edit', compact('article'));
+    }
+
+    public function update(Article $article, ArticlePostRequest $request): RedirectResponse
+    {
+        $fields = $request->validated();
+        $fields['slug'] = Str::slug($fields['title']);
+        $fields['published_at'] = $request->input('checkbox') ? $request->input('published_at') : null;
+        try {
+            $article->update($fields);
+        } catch (QueryException $exception) {
+            return back()->withErrors('Новость с таким slug уже есть');
+        }
+
+
+        return redirect()->route('articles.index')
+            ->with('success', 'Новость успешно изменена');
+    }
+
+    public function destroy(Article $article): RedirectResponse
+    {
+        $article->delete();
+        return redirect()->route('articles.index')
+            ->with('success', 'Новость успешно удалена');
     }
 }

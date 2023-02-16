@@ -3,17 +3,20 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class ArticlePostRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Prepare the data for validation.
      *
-     * @return bool
+     * @return void
      */
-    public function authorize(): bool
+    protected function prepareForValidation(): void
     {
-        return true;
+        $this->merge([
+            'slug' => Str::slug($this->request->get('title')),
+        ]);
     }
 
     /**
@@ -23,10 +26,16 @@ class ArticlePostRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'title' => 'required|unique:articles|min:5|max:100',
+        $rules = [
+            'title' => 'required|unique:articles,title|min:5|max:100',
             'description' => 'required|max:255',
             'body' => 'required',
         ];
+
+        if ($this->method() === 'POST') {
+            $rules['slug'] = 'unique:articles,slug';
+        }
+
+        return $rules;
     }
 }
