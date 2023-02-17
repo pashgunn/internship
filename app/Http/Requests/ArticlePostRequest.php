@@ -9,7 +9,7 @@ class ArticlePostRequest extends FormRequest
 {
     public function getPublishedAt()
     {
-        return $this->input('checkbox') ? $this->input('published_at') : null;
+        return $this->input('isPublished') ? $this->input('published_at') : null;
     }
 
     /**
@@ -32,15 +32,15 @@ class ArticlePostRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'title' => 'required|unique:articles,title|min:5|max:100',
+            'slug' => 'unique:articles,slug',
+            'title' => 'required|min:5|max:100',
             'description' => 'required|max:255',
             'body' => 'required',
         ];
 
-        if ($this->method() === 'POST') {
-            $rules['slug'] = 'unique:articles,slug';
+        if ($this->method() === 'PATCH') {
+            $rules['slug'] .= ',' . request()->route('article')->id;
         }
-
         return $rules;
     }
 }

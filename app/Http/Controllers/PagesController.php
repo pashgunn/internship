@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ArticlePostRequest;
 use App\Models\Article;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Str;
 
 class PagesController extends Controller
 {
@@ -69,7 +67,7 @@ class PagesController extends Controller
         $fields['published_at'] = $request->getPublishedAt();
         Article::create($fields);
 
-        return redirect()->route("articles")
+        return redirect()->route('articles.index')
             ->with('success', 'Новость успешно создана');
     }
 
@@ -81,14 +79,8 @@ class PagesController extends Controller
     public function update(Article $article, ArticlePostRequest $request): RedirectResponse
     {
         $fields = $request->validated();
-        $fields['slug'] = Str::slug($fields['title']);
         $fields['published_at'] = $request->getPublishedAt();
-        try {
-            $article->update($fields);
-        } catch (QueryException $exception) {
-            return back()->withErrors('Новость с таким slug уже есть');
-        }
-
+        $article->update($fields);
 
         return redirect()->route('articles.index')
             ->with('success', 'Новость успешно изменена');

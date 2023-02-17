@@ -25,7 +25,7 @@
             <x-slot name="name">Выбор даты публикации</x-slot>
             <x-input.date id="inputPublishedAt" name="published_at" value="{{ old('published_at', \Carbon\Carbon::parse($article->published_at)->toDateString()) }}"/>
         </x-input.group>
-        <x-input.checkbox name="checkbox" isChecked="{{ old('checkbox', $article->published_at) }}" >
+        <x-input.checkbox name="isPublished" isChecked="{{ old('isPublished', $article->published_at) }}" >
             Опубликован
         </x-input.checkbox>
 

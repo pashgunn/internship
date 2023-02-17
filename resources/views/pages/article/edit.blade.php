@@ -8,12 +8,12 @@
 
         <x-panels.error/>
 
-        <form method="POST" action="{{ route('articles.update', $article->slug) }}">
+        <form method="POST" action="{{ route('articles.update', $article) }}">
             @method('PATCH')
             <x-panels.article-groups :$article/>
         </form>
 
-        <form method="POST" action="{{ route('articles.destroy', $article->slug) }}">
+        <form method="POST" action="{{ route('articles.destroy', $article) }}">
             @csrf
             @method('DELETE')
 
