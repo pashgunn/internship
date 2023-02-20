@@ -6,7 +6,6 @@ use App\Http\Requests\ArticlePostRequest;
 use App\Models\Article;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Str;
 
 class PagesController extends Controller
 {
@@ -52,24 +51,45 @@ class PagesController extends Controller
         return view('pages.articles', compact('articles'));
     }
 
-    public function show(Article $article): View
-    {
-        return view('pages.article.show', compact('article'));
-    }
-
     public function create(): View
     {
         return view('pages.article.create');
     }
 
+    public function show(Article $article): View
+    {
+        return view('pages.article.show', compact('article'));
+    }
+
     public function store(ArticlePostRequest $request): RedirectResponse
     {
         $fields = $request->validated();
-        $fields['slug'] = Str::slug($fields['title']);
-        $fields['published_at'] = $request->input('checkbox') ? $request->input('published_at') : null;
+        $fields['published_at'] = $request->getPublishedAt();
         Article::create($fields);
 
-        return redirect()->route("articles")
+        return redirect()->route('articles.index')
             ->with('success', 'Новость успешно создана');
+    }
+
+    public function edit(Article $article): View
+    {
+        return view('pages.article.edit', compact('article'));
+    }
+
+    public function update(Article $article, ArticlePostRequest $request): RedirectResponse
+    {
+        $fields = $request->validated();
+        $fields['published_at'] = $request->getPublishedAt();
+        $article->update($fields);
+
+        return redirect()->route('articles.index')
+            ->with('success', 'Новость успешно изменена');
+    }
+
+    public function destroy(Article $article): RedirectResponse
+    {
+        $article->delete();
+        return redirect()->route('articles.index')
+            ->with('success', 'Новость успешно удалена');
     }
 }
