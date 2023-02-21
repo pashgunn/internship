@@ -18,12 +18,16 @@ class CarSeeder extends Seeder
      */
     public function run()
     {
+        $classes = CarClass::get();
+        $bodies = CarBody::get();
+        $engines = CarEngine::get();
+
         Car::factory()
             ->count(20)
             ->sequence(fn ($sequence) => [
-                'car_class_id' => CarClass::get()->random(),
-                'car_body_id' => rand(0, 1) ? CarBody::get()->random() : null,
-                'car_engine_id' => CarEngine::get()->random()
+                'car_class_id' => $classes->random(),
+                'car_body_id' => rand(0, 1) ? $bodies->random() : null,
+                'car_engine_id' => $engines->random()
             ])
             ->create();
     }
