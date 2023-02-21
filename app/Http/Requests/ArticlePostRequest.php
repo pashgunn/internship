@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class ArticlePostRequest extends FormRequest
 {
@@ -39,7 +40,7 @@ class ArticlePostRequest extends FormRequest
         ];
 
         if ($this->method() === 'PATCH') {
-            $rules['slug'] .= ',' . request()->route('article')->id;
+            $rules['slug'] = Rule::unique('articles', 'slug')->ignore($this->article);
         }
         return $rules;
     }

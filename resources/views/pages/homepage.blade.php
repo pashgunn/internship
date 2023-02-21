@@ -20,31 +20,16 @@
             </x-panels.relative-banner>
         </div>
     </section>
+    @if($products->count())
     <section class="pb-4 px-6">
         <p class="inline-block text-3xl text-black font-bold mb-4">Модели недели</p>
-        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
-            <x-panels.weekly-models src="/pictures/car_cerato.png">
-                <x-slot name="car">Cerato</x-slot>
-                <x-slot name="price">1 221 900 ₽</x-slot>
-                <x-slot name="oldPrice">1 821 900 ₽</x-slot>
-            </x-panels.weekly-models>
-
-            <x-panels.weekly-models src="/pictures/car_rio-x.png">
-                <x-slot name="car">Rio X</x-slot>
-                <x-slot name="price">969 900 ₽</x-slot>
-            </x-panels.weekly-models>
-
-            <x-panels.weekly-models src="/pictures/car_mohave_new.png">
-                <x-slot name="car">Mohave</x-slot>
-                <x-slot name="price">3 549 900 ₽</x-slot>
-            </x-panels.weekly-models>
-
-            <x-panels.weekly-models src="/pictures/car_K5-half.png">
-                <x-slot name="car">K5</x-slot>
-                <x-slot name="price">1 577 900 ₽</x-slot>
-            </x-panels.weekly-models>
-        </div>
+        <x-panels.car-catalog>
+            @foreach($products as $product)
+                <x-panels.car-catalog-element src="/pictures/car_cerato.png" :$product/>
+            @endforeach
+        </x-panels.car-catalog>
     </section>
+    @endif
     <section class="news-block-inverse px-6 py-4">
         <div>
             <p class="inline-block text-3xl text-white font-bold mb-4">Новости</p>
