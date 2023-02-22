@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticlePostRequest;
 use App\Models\Article;
+use App\Models\Car;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Str;
 
 class PagesController extends Controller
 {
     public function homepage(): View
     {
         $articles = Article::latest('published_at')->limit(3)->get();
-        return view('pages.homepage', compact('articles'));
+        $products = Car::where('is_new', '=', '1')->limit(4)->get();
+        return view('pages.homepage', compact('articles', 'products'));
     }
 
     public function about(): View
@@ -49,27 +50,48 @@ class PagesController extends Controller
     public function index(): View
     {
         $articles = Article::latest('published_at')->limit(3)->get();
-        return view('pages.articles', compact('articles'));
-    }
-
-    public function show(Article $article): View
-    {
-        return view('pages.article.show', compact('article'));
+        return view('pages.articles.index', compact('articles'));
     }
 
     public function create(): View
     {
-        return view('pages.article.create');
+        return view('pages.articles.create');
+    }
+
+    public function show(Article $article): View
+    {
+        return view('pages.articles.show', compact('article'));
     }
 
     public function store(ArticlePostRequest $request): RedirectResponse
     {
         $fields = $request->validated();
-        $fields['slug'] = Str::slug($fields['title']);
-        $fields['published_at'] = $request->input('checkbox') ? $request->input('published_at') : null;
+        $fields['published_at'] = $request->getPublishedAt();
         Article::create($fields);
 
-        return redirect()->route("articles")
+        return redirect()->route('articles.index')
             ->with('success', 'Новость успешно создана');
+    }
+
+    public function edit(Article $article): View
+    {
+        return view('pages.articles.edit', compact('article'));
+    }
+
+    public function update(Article $article, ArticlePostRequest $request): RedirectResponse
+    {
+        $fields = $request->validated();
+        $fields['published_at'] = $request->getPublishedAt();
+        $article->update($fields);
+
+        return redirect()->route('articles.index')
+            ->with('success', 'Новость успешно изменена');
+    }
+
+    public function destroy(Article $article): RedirectResponse
+    {
+        $article->delete();
+        return redirect()->route('articles.index')
+            ->with('success', 'Новость успешно удалена');
     }
 }

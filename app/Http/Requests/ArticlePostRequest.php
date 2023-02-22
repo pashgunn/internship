@@ -3,17 +3,26 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class ArticlePostRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize(): bool
+    public function getPublishedAt()
     {
-        return true;
+        return $this->input('isPublished') ? $this->input('published_at') : null;
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'slug' => Str::slug($this->request->get('title')),
+        ]);
     }
 
     /**
@@ -23,10 +32,16 @@ class ArticlePostRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'title' => 'required|unique:articles|min:5|max:100',
+        $rules = [
+            'slug' => 'unique:articles,slug',
+            'title' => 'required|min:5|max:100',
             'description' => 'required|max:255',
             'body' => 'required',
         ];
+
+        if ($this->method() === 'PATCH') {
+            $rules['slug'] = Rule::unique('articles', 'slug')->ignore($this->article);
+        }
+        return $rules;
     }
 }

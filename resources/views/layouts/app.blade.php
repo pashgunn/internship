@@ -6,8 +6,10 @@
     <x-panels.styles/>
 
     <x-panels.scripts/>
+
     <title>@yield('page.title', 'Рога и Сила - Главная страница')</title>
     <link href="{{ route('homepage') }}" rel="shortcut icon" type="image/x-icon">
+    @stack('scripts')
 </head>
 <body class="bg-white text-gray-600 font-sans leading-normal text-base tracking-normal flex min-h-screen flex-col">
 <div class="wrapper flex flex-1 flex-col">

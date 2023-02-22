@@ -5,9 +5,10 @@
 @section('inner.content')
     <x-panels.success/>
 
+    <a class="hover:text-orange" href="{{ route('articles.create') }}">Создание новости</a>
+
     <div class="space-y-4">
         <x-panels.articles-all :$articles/>
-
         <div>
             <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px text-lg" aria-label="Pagination">
                 <a href="#" class="inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-gray-200 cursor-not-allowed">
