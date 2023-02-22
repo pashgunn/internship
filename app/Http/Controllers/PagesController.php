@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticlePostRequest;
 use App\Models\Article;
+use App\Models\Car;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -12,7 +13,8 @@ class PagesController extends Controller
     public function homepage(): View
     {
         $articles = Article::latest('published_at')->limit(3)->get();
-        return view('pages.homepage', compact('articles'));
+        $products = Car::where('is_new', '=', '1')->limit(4)->get();
+        return view('pages.homepage', compact('articles', 'products'));
     }
 
     public function about(): View
@@ -48,17 +50,17 @@ class PagesController extends Controller
     public function index(): View
     {
         $articles = Article::latest('published_at')->limit(3)->get();
-        return view('pages.articles', compact('articles'));
+        return view('pages.articles.index', compact('articles'));
     }
 
     public function create(): View
     {
-        return view('pages.article.create');
+        return view('pages.articles.create');
     }
 
     public function show(Article $article): View
     {
-        return view('pages.article.show', compact('article'));
+        return view('pages.articles.show', compact('article'));
     }
 
     public function store(ArticlePostRequest $request): RedirectResponse
@@ -73,7 +75,7 @@ class PagesController extends Controller
 
     public function edit(Article $article): View
     {
-        return view('pages.article.edit', compact('article'));
+        return view('pages.articles.edit', compact('article'));
     }
 
     public function update(Article $article, ArticlePostRequest $request): RedirectResponse
