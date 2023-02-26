@@ -20,12 +20,12 @@ return new class extends Migration
             $table->unsignedInteger('price');
             $table->unsignedInteger('old_price')->nullable();
             $table->string('salon')->nullable();
-            $table->foreignId('car_class_id');
+            $table->foreignId('car_class_id')->constrained();
             $table->string('kpp')->nullable();
             $table->unsignedInteger('year')->nullable();
             $table->string('color')->nullable();
-            $table->foreignId('car_body_id')->nullable();
-            $table->foreignId('car_engine_id');
+            $table->foreignId('car_body_id')->nullable()->constrained();
+            $table->foreignId('car_engine_id')->constrained();
             $table->boolean('is_new')->default(false);
             $table->timestamps();
         });
