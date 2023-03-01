@@ -4,17 +4,17 @@ namespace App\Services;
 
 use App\Contracts\HasTags;
 use App\Contracts\Repositories\TagRepositoryContract;
-use App\Models\Tag;
+use App\Contracts\Repositories\TagsSynchronizerContract;
 use Illuminate\Support\Collection;
 
-class TagsSynchronizer
+class TagsSynchronizer implements TagsSynchronizerContract
 {
     public function __construct(
         private readonly TagRepositoryContract     $tagRepository
     ) {
     }
 
-    public function sync(Collection $tags, HasTags $model)
+    public function sync(Collection $tags, HasTags $model): void
     {
         $allTags = $this->tagRepository->keyByTags();
         $nonexistentTags = $tags->diffKeys($allTags);

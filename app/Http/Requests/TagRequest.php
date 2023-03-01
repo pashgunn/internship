@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection;
 
-class TagPostRequest extends FormRequest
+class TagRequest extends FormRequest
 {
     public function getTags(): Collection
     {
