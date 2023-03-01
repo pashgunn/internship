@@ -14,9 +14,7 @@ class TagsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(TagsSynchronizer::class, function () {
-            return new TagsSynchronizer();
-        });
+        $this->app->singleton(TagsSynchronizer::class, TagsSynchronizer::class);
     }
 
     /**
