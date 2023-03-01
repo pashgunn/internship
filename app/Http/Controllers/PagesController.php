@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticlePostRequest;
+use App\Http\Requests\TagPostRequest;
 use App\Models\Article;
 use App\Models\Car;
+use App\Services\TagsSynchronizer;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 
 class PagesController extends Controller
 {
     public function homepage(): View
     {
-        $articles = Article::latest('published_at')->limit(3)->get();
+        $articles = Article::with('tags')->latest('published_at')->limit(3)->get();
         $products = Car::where('is_new', '1')->limit(4)->get();
         return view('pages.homepage', compact('articles', 'products'));
     }
@@ -84,11 +85,14 @@ class PagesController extends Controller
         return view('pages.articles.show', compact('article'));
     }
 
-    public function store(ArticlePostRequest $request): RedirectResponse
+    public function store(ArticlePostRequest $request, TagPostRequest $tagRequest, TagsSynchronizer $tagsSynchronizer): RedirectResponse
     {
         $fields = $request->validated();
         $fields['published_at'] = $request->getPublishedAt();
-        Article::create($fields);
+        $article = Article::create($fields);
+
+        $tags = $tagRequest->getTags();
+        $tagsSynchronizer->sync($tags, $article);
 
         return redirect()->route('articles.index')
             ->with('success', 'Новость успешно создана');
@@ -99,11 +103,14 @@ class PagesController extends Controller
         return view('pages.articles.edit', compact('article'));
     }
 
-    public function update(Article $article, ArticlePostRequest $request): RedirectResponse
+    public function update(Article $article, ArticlePostRequest $request, TagPostRequest $tagRequest, TagsSynchronizer $tagsSynchronizer): RedirectResponse
     {
         $fields = $request->validated();
         $fields['published_at'] = $request->getPublishedAt();
         $article->update($fields);
+
+        $tags = $tagRequest->getTags();
+        $tagsSynchronizer->sync($tags, $article);
 
         return redirect()->route('articles.index')
             ->with('success', 'Новость успешно изменена');

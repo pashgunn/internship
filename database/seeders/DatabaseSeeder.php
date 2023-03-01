@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
              CarBodySeeder::class,
              CarClassSeeder::class,
              CarEngineSeeder::class,
-             CarSeeder::class
+             CarSeeder::class,
+             TagSeeder::class
          ]);
     }
 }

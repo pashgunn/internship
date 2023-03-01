@@ -21,6 +21,11 @@
             <x-input.textarea id="inputBody" name="body"
                               :error="$errors->first('body')">{{ old('body', $article->body) }}</x-input.textarea>
         </x-input.group>
+        <x-input.group for="inputTags" :error="$errors->first('tags')">
+            <x-slot name="name">Теги</x-slot>
+            <x-input.text id="inputTags" name="tags" value="{{ old('tags', $article->tags->pluck('name')->implode(',')) }}"
+                          :error="$errors->first('tags')"/>
+        </x-input.group>
         <x-input.group for="inputPublishedAt">
             <x-slot name="name">Выбор даты публикации</x-slot>
             <x-input.date id="inputPublishedAt" name="published_at" value="{{ old('published_at', \Carbon\Carbon::parse($article->published_at)->toDateString()) }}"/>
