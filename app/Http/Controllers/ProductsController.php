@@ -2,19 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Car;
+use App\Contracts\Repositories\CarRepositoryContract;
 
 class ProductsController extends Controller
 {
+    public function __construct(
+        private readonly CarRepositoryContract $carRepository,
+    ) {
+    }
+
     public function index()
     {
-        $products = Car::get();
-        return view('pages.products.index', compact('products'));
+        $pagination = $this->carRepository->getCatalog( 16);
+        $products = $pagination->items();
+        return view('pages.products.index', compact('products', 'pagination'));
     }
 
     public function show($id)
     {
-        $product = Car::find($id);
+        $product = $this->carRepository->find($id);
         return view('pages.products.show', compact('product'));
     }
 }

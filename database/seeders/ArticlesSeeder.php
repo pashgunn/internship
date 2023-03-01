@@ -21,7 +21,7 @@ class ArticlesSeeder extends Seeder
             ->create();
 
         Article::factory()
-            ->count(5)
+            ->count(100)
             ->create();
     }
 }
