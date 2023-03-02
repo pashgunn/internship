@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Contracts\Repositories\TagsSynchronizerContract;
+use App\Services\TagsSynchronizer;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         Paginator::defaultView('pagination::default');
+        $this->app->singleton(TagsSynchronizerContract::class, TagsSynchronizer::class);
     }
 
     /**

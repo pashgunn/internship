@@ -22,8 +22,8 @@ class PagesController extends Controller
 
     public function homepage(): View
     {
-        $articles = $this->articleRepository->homepageArticles();
-        $products = $this->carRepository->homepageCars();
+        $articles = $this->articleRepository->homepageArticles(3);
+        $products = $this->carRepository->homepageCars(4);
         return view('pages.homepage', compact('articles', 'products'));
     }
 

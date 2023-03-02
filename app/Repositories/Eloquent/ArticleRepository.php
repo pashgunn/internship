@@ -14,12 +14,12 @@ class ArticleRepository extends BaseRepository implements ArticleRepositoryContr
         parent::__construct($model);
     }
 
-    public function homepageArticles(): Collection
+    public function homepageArticles(int $paginatesCount): Collection
     {
-        return $this->model->with('tags')->latest('published_at')->limit(3)->get();
+        return $this->model->with('tags')->latest('published_at')->limit($paginatesCount)->get();
     }
 
-    public function getCatalog($paginatesCount): LengthAwarePaginator
+    public function getCatalog(int $paginatesCount): LengthAwarePaginator
     {
         return $this->model
             ->whereNotNull('published_at')

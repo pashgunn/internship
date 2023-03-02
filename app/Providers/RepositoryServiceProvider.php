@@ -6,12 +6,10 @@ use App\Contracts\Repositories\ArticleRepositoryContract;
 use App\Contracts\Repositories\CarRepositoryContract;
 use App\Contracts\Repositories\EloquentRepositoryContract;
 use App\Contracts\Repositories\TagRepositoryContract;
-use App\Contracts\Repositories\TagsSynchronizerContract;
 use App\Repositories\Eloquent\ArticleRepository;
 use App\Repositories\Eloquent\BaseRepository;
 use App\Repositories\Eloquent\CarRepository;
 use App\Repositories\Eloquent\TagsRepository;
-use App\Services\TagsSynchronizer;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -27,7 +25,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(ArticleRepositoryContract::class, ArticleRepository::class);
         $this->app->singleton(CarRepositoryContract::class, CarRepository::class);
         $this->app->singleton(TagRepositoryContract::class, TagsRepository::class);
-        $this->app->singleton(TagsSynchronizerContract::class, TagsSynchronizer::class);
     }
 
     /**

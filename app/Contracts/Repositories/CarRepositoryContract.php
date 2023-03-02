@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface CarRepositoryContract
 {
-    public function homepageCars(): Collection;
+    public function homepageCars(int $paginatesCount): Collection;
     public function forClients(): Collection;
 }

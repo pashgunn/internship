@@ -16,17 +16,14 @@ class TagsSynchronizer implements TagsSynchronizerContract
 
     public function sync(Collection $tags, HasTags $model): void
     {
-        $allTags = $this->tagRepository->keyByTags();
-        $nonexistentTags = $tags->diffKeys($allTags);
-        if (!empty($nonexistentTags)) {
-            foreach ($nonexistentTags->keys() as $nonexistentTag) {
+        $tags->each(function ($tag) use ($model) {
+            if(!$this->tagRepository->contains('name', $tag)) {
                 $model->tags()->create(
-                    ['name' => $nonexistentTag]
+                    ['name' => $tag]
                 );
             }
-            $allTags = $this->tagRepository->keyByTags();
-        }
-        $syncIds = $allTags->intersectByKeys($tags)->pluck('id')->toArray();
+        });
+        $syncIds = $this->tagRepository->syncIds($tags);
         $model->tags()->sync($syncIds);
     }
 }

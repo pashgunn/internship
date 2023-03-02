@@ -13,9 +13,9 @@ class CarRepository extends BaseRepository implements CarRepositoryContract
         parent::__construct($model);
     }
 
-    public function homepageCars(): Collection
+    public function homepageCars(int $paginatesCount): Collection
     {
-        return $this->model->where('is_new', '1')->limit(4)->get();
+        return $this->model->where('is_new', true)->limit($paginatesCount)->get();
     }
 
     public function forClients(): Collection
