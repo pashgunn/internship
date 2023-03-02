@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,6 +22,10 @@ class AppServiceProvider extends ServiceProvider
                 return collect($assoc);
             });
         });
+
+        Relation::morphMap([
+            'article' => \App\Models\Article::class,
+        ]);
     }
 
     /**
