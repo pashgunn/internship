@@ -29,7 +29,7 @@ class ProductsController extends Controller
 
     public function category($id)
     {
-        $categories = $this->categoryRepository->getCategory($id);
+        $categories = $this->categoryRepository->getCategoriesTree($id);
         $pagination = $this->carRepository->catalogWithCategory($categories,16);
         $products = $pagination->items();
         return view('pages.products.index', compact('products', 'pagination', 'id'));

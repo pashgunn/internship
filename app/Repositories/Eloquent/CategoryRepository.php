@@ -13,7 +13,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryCon
         parent::__construct($model);
     }
 
-    public function getCategory(string $id): Collection
+    public function getCategoriesTree(string $id): Collection
     {
         $category = $this->model->where('slug', $id)->first();
         // Get ids of descendants
