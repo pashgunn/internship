@@ -9,9 +9,20 @@ class TagRequest extends FormRequest
 {
     public function getTags(): Collection
     {
-        return collect(explode(",", $this->input('tags')))->unique()->keyBy(function ($item) {
-            return $item;
-        })->forget(' ')->forget('');
+        $tagsInput = $this->input('tags');
+
+        if (empty($tagsInput)) {
+            return collect();
+        }
+
+        return collect(explode(",", $tagsInput))
+            ->map(function ($tagName) {
+                return trim($tagName);
+            })
+            ->filter(function ($tagName) {
+                return $tagName !== '';
+            })
+            ->unique();
     }
 
     /**
@@ -22,7 +33,7 @@ class TagRequest extends FormRequest
     public function rules()
     {
         return [
-            'tags' => 'string'
+            //
         ];
     }
 }

@@ -9,7 +9,7 @@ use App\Contracts\Repositories\TagRepositoryContract;
 use App\Repositories\Eloquent\ArticleRepository;
 use App\Repositories\Eloquent\BaseRepository;
 use App\Repositories\Eloquent\CarRepository;
-use App\Repositories\Eloquent\TagsRepository;
+use App\Repositories\Eloquent\TagRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -24,7 +24,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(EloquentRepositoryContract::class, BaseRepository::class);
         $this->app->singleton(ArticleRepositoryContract::class, ArticleRepository::class);
         $this->app->singleton(CarRepositoryContract::class, CarRepository::class);
-        $this->app->singleton(TagRepositoryContract::class, TagsRepository::class);
+        $this->app->singleton(TagRepositoryContract::class, TagRepository::class);
     }
 
     /**

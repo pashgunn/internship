@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Contracts\HasTags;
 use App\Contracts\Repositories\TagRepositoryContract;
 use App\Contracts\Repositories\TagsSynchronizerContract;
+use App\Models\Tag;
 use Illuminate\Support\Collection;
 
 class TagsSynchronizer implements TagsSynchronizerContract
@@ -16,14 +17,15 @@ class TagsSynchronizer implements TagsSynchronizerContract
 
     public function sync(Collection $tags, HasTags $model): void
     {
-        $tags->each(function ($tag) use ($model) {
-            if(!$this->tagRepository->contains('name', $tag)) {
-                $model->tags()->create(
-                    ['name' => $tag]
-                );
-            }
+        // Get existing tags and create new ones
+        $existingTags = $this->tagRepository->existingTags($tags);
+        $newTagNames = $tags->diff($existingTags->pluck('name'));
+        $newTags = $newTagNames->map(function ($tagName) {
+            return $this->tagRepository->create(['name' => $tagName]);
         });
-        $syncIds = $this->tagRepository->syncIds($tags);
-        $model->tags()->sync($syncIds);
+
+        // Associate all tags with the model
+        $allTags = $existingTags->merge($newTags);
+        $model->tags()->sync($allTags->pluck('id'));
     }
 }
