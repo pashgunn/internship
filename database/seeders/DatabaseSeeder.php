@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
              CarBodySeeder::class,
              CarClassSeeder::class,
              CarEngineSeeder::class,
+             CategorySeeder::class,
              CarSeeder::class,
              TagSeeder::class
          ]);

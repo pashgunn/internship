@@ -12,5 +12,6 @@ Route::get('salons',               ['uses' => 'PagesController@salons',         
 
 Route::resource('articles', 'PagesController');
 
-Route::get('catalog', ['uses' => 'ProductsController@index', 'as' => 'products.index']);
-Route::get('products/{id}', ['uses' => 'ProductsController@show', 'as' => 'products.show']);
+Route::get('catalog',        ['uses' => 'ProductsController@index', 'as' => 'products.index']);
+Route::get('products/{id}',  ['uses' => 'ProductsController@show',  'as' => 'products.show']);
+Route::get('catalog/{slug}', ['uses' => 'ProductsController@category', 'as' => 'products.category']);

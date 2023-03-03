@@ -12,7 +12,7 @@ class Article extends Model implements HasTags
 {
     use HasFactory;
 
-    public $guarded = [];
+    protected $guarded = [];
 
     public function getRouteKeyName(): string
     {
