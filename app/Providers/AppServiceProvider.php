@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Contracts\Repositories\ImageSaverContract;
 use App\Contracts\Repositories\TagsSynchronizerContract;
+use App\Services\ImageSaver;
 use App\Services\TagsSynchronizer;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\Paginator;
@@ -32,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
 
         Paginator::defaultView('pagination::default');
         $this->app->singleton(TagsSynchronizerContract::class, TagsSynchronizer::class);
+        $this->app->singleton(ImageSaverContract::class, ImageSaver::class);
     }
 
     /**

@@ -21,7 +21,7 @@ class ArticleRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'slug' => Str::slug($this->request->get('title')),
+            'slug' => Str::slug($this->input('title')),
         ]);
     }
 
@@ -37,10 +37,11 @@ class ArticleRequest extends FormRequest
             'title' => 'required|min:5|max:100',
             'description' => 'required|max:255',
             'body' => 'required',
+            'image' => 'required'
         ];
 
         if ($this->method() === 'PATCH') {
-            $rules['slug'] = Rule::unique('articles', 'slug')->ignore($this->article);
+            $rules['slug'] = Rule::unique('articles', 'slug')->ignore($this->article, 'slug');
         }
         return $rules;
     }

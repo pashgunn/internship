@@ -8,7 +8,7 @@
 
         <x-panels.error/>
 
-        <form method="POST" action="{{ route('articles.update', $article) }}">
+        <form method="POST" action="{{ route('articles.update', $article) }}" enctype="multipart/form-data">
             @method('PATCH')
             <x-panels.article-groups :$article/>
         </form>

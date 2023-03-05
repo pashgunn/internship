@@ -8,7 +8,7 @@
 
     <x-panels.error/>
 
-    <form method="post" action="{{ route('articles.store') }}">
+    <form method="POST" action="{{ route('articles.store') }}" enctype="multipart/form-data">
         <x-panels.article-groups :article="new \App\Models\Article()"/>
     </form>
 </div>

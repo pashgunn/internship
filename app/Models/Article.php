@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Contracts\HasTags;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Article extends Model implements HasTags
@@ -22,5 +22,10 @@ class Article extends Model implements HasTags
     public function tags(): MorphToMany
     {
         return $this->morphToMany(Tag::class, 'taggable');
+    }
+
+    public function image(): BelongsTo
+    {
+        return $this->belongsTo(Image::class);
     }
 }
