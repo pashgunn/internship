@@ -25,7 +25,7 @@
         <p class="inline-block text-3xl text-black font-bold mb-4">Модели недели</p>
         <x-panels.car-catalog>
             @foreach($products as $product)
-                <x-panels.car-catalog-element src="{{ asset($product->mainImage->name) }}" :$product/>
+                <x-panels.car-catalog-element src="{{ Storage::url($product->mainImage->path) }}" :$product/>
             @endforeach
         </x-panels.car-catalog>
     </section>

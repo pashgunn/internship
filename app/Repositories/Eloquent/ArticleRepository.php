@@ -5,7 +5,6 @@ namespace App\Repositories\Eloquent;
 use App\Contracts\Repositories\ArticleRepositoryContract;
 use App\Models\Article;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ArticleRepository extends BaseRepository implements ArticleRepositoryContract
@@ -29,13 +28,8 @@ class ArticleRepository extends BaseRepository implements ArticleRepositoryContr
             ->paginate($paginatesCount);
     }
 
-    public function find(int|string|Article $id): ?Article
+    public function find(int|string $id): ?Article
     {
         return $this->model->where('slug', $id)->first();
-    }
-
-    public function update($id,array $attributes): bool
-    {
-        return $this->find($id)?->update($attributes);
     }
 }

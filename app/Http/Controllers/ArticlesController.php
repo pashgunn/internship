@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repositories\ArticleCreateUpdateServiceContract;
 use App\Contracts\Repositories\ArticleRepositoryContract;
-use App\Contracts\Repositories\ImageSaverContract;
-use App\Contracts\Repositories\TagsSynchronizerContract;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\TagRequest;
-use App\Models\Image;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -15,8 +13,7 @@ class ArticlesController extends Controller
 {
     public function __construct(
         private readonly ArticleRepositoryContract $articleRepository,
-        private readonly TagsSynchronizerContract  $tagsSynchronizer,
-        private readonly ImageSaverContract $imageSaver
+        private readonly ArticleCreateUpdateServiceContract $articleCreateUpdateService
     ) {
     }
     public function index(): View
@@ -39,19 +36,11 @@ class ArticlesController extends Controller
 
     public function store(ArticleRequest $articleRequest, TagRequest $tagRequest): RedirectResponse
     {
-        $fields = $articleRequest->validated();
-        $fields['published_at'] = $articleRequest->getPublishedAt();
-
-        $file = $articleRequest->file('image');
-        $image = $this->imageSaver->save($file);
-
-        $fields['image_id'] = $image->id;
-        unset($fields['image']);
-
-        $article = $this->articleRepository->create($fields);
-
-        $tags = $tagRequest->getTags();
-        $this->tagsSynchronizer->sync($tags, $this->articleRepository->find($article->slug));
+        $this->articleCreateUpdateService->create(
+            $articleRequest,
+            $tagRequest->getTags(),
+            $articleRequest->file('image')
+        );
 
         return redirect()->route('articles.index')
             ->with('success', 'Новость успешно создана');
@@ -65,19 +54,12 @@ class ArticlesController extends Controller
 
     public function update($slug, ArticleRequest $articleRequest, TagRequest $tagRequest): RedirectResponse
     {
-        $fields = $articleRequest->validated();
-        $fields['published_at'] = $articleRequest->getPublishedAt();
-
-        $file = $articleRequest->file('image');
-        $image = $this->imageSaver->save($file);
-
-        $fields['image_id'] = $image->id;
-        unset($fields['image']);
-
-        $this->articleRepository->update($slug,$fields);
-
-        $tags = $tagRequest->getTags();
-        $this->tagsSynchronizer->sync($tags, $this->articleRepository->find($slug));
+        $this->articleCreateUpdateService->update(
+            $this->articleRepository->find($slug),
+            $articleRequest,
+            $tagRequest->getTags(),
+            $articleRequest->file('image')
+        );
 
         return redirect()->route('articles.index')
             ->with('success', 'Новость успешно изменена');
