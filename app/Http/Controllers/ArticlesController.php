@@ -28,9 +28,9 @@ class ArticlesController extends Controller
         return view('pages.articles.create');
     }
 
-    public function show($article): View
+    public function show($slug): View
     {
-        $article = $this->articleRepository->find($article);
+        $article = $this->articleRepository->findBySlug($slug);
         return view('pages.articles.show', compact('article'));
     }
 
@@ -46,16 +46,16 @@ class ArticlesController extends Controller
             ->with('success', 'Новость успешно создана');
     }
 
-    public function edit($article): View
+    public function edit($slug): View
     {
-        $article = $this->articleRepository->find($article);
+        $article = $this->articleRepository->findBySlug($slug);
         return view('pages.articles.edit', compact('article'));
     }
 
     public function update($slug, ArticleRequest $articleRequest, TagRequest $tagRequest): RedirectResponse
     {
         $this->articleCreateUpdateService->update(
-            $this->articleRepository->find($slug),
+            $this->articleRepository->findBySlug($slug),
             $articleRequest,
             $tagRequest->getTags(),
             $articleRequest->file('image')

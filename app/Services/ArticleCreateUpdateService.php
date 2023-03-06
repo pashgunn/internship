@@ -17,14 +17,8 @@ class ArticleCreateUpdateService implements ArticleCreateUpdateServiceContract
     public function __construct(
         private readonly ArticleRepositoryContract $articleRepository,
         private readonly TagsSynchronizerContract  $tagsSynchronizer,
-        private readonly ImageRepositoryContract   $ImageRepository
+        private readonly ImageRepositoryContract   $imageRepository
     ) {
-    }
-
-    private function imageCreate(UploadedFile $file): Model
-    {
-        $path = $file->store('images', ['disk' => 'public']);
-        return $this->ImageRepository->create(['path' => $path]);
     }
 
     private function prepareArticleFields(ArticleRequest $articleRequest, Model $image): array
@@ -38,22 +32,20 @@ class ArticleCreateUpdateService implements ArticleCreateUpdateServiceContract
 
     public function create(ArticleRequest $articleRequest, Collection $tags, UploadedFile $file): void
     {
-        $image = $this->imageCreate($file);
+        $image = $this->imageRepository->imageCreate($file);
         $fields = $this->prepareArticleFields($articleRequest, $image);
 
         $article = $this->articleRepository->create($fields);
-
         $this->tagsSynchronizer->sync($tags, $article);
     }
 
     public function update(Article $article, ArticleRequest $articleRequest, Collection $tags, UploadedFile $file): void
     {
-        $image = $this->imageCreate($file);
+        $image = $this->imageRepository->imageCreate($file);
         $fields = $this->prepareArticleFields($articleRequest, $image);
 
-        $updatedArticle = tap($article)->update($fields)->first();
-
-        $this->tagsSynchronizer->sync($tags, $updatedArticle);
+        $article->update($fields);
+        $this->tagsSynchronizer->sync($tags, $article);
     }
 
 }

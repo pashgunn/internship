@@ -10,5 +10,5 @@ interface ArticleRepositoryContract
 {
     public function homepageArticles(int $paginatesCount): Collection;
     public function getCatalog(int $paginatesCount): LengthAwarePaginator;
-    public function find(int|string $id): ?Article;
+    public function findBySlug(string $slug): ?Article;
 }

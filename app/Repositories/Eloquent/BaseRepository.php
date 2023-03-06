@@ -23,7 +23,7 @@ class BaseRepository implements EloquentRepositoryContract
         return $this->model->create($attributes);
     }
 
-    public function delete(int|string $id): bool
+    public function delete(string $id): bool
     {
         return $this->model->where('slug', $id)->first()->delete();
     }
