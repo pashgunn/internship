@@ -16,11 +16,9 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryCon
     public function getCategoriesTree(string $id): Collection
     {
         $category = $this->model->where('slug', $id)->first();
-        // Get ids of descendants
-        $categories = $category->descendants()->pluck('id');
-        // Include the id of category itself
-        $categories[] = $category->getKey();
-        return $categories;
+        $categoryId = $category->id;
+
+        return $this->model->descendantsAndSelf($categoryId)->pluck('id');
     }
 
     public function categoriesToTree(): Collection
