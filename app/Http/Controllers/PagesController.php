@@ -2,21 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ArticlePostRequest;
-use App\Http\Requests\TagPostRequest;
-use App\Models\Article;
-use App\Models\Car;
-use App\Services\TagsSynchronizer;
+use App\Contracts\Repositories\ArticleRepositoryContract;
+use App\Contracts\Repositories\CarRepositoryContract;
+use App\Contracts\Repositories\TagsSynchronizerContract;
+use App\Http\Requests\ArticleRequest;
+use App\Http\Requests\TagRequest;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Str;
 
 class PagesController extends Controller
 {
+    public function __construct(
+        private readonly ArticleRepositoryContract $articleRepository,
+        private readonly CarRepositoryContract     $carRepository,
+        private readonly TagsSynchronizerContract  $tagsSynchronizer,
+    ) {
+    }
+
     public function homepage(): View
     {
-        $articles = Article::with('tags')->latest('published_at')->limit(3)->get();
-        $products = Car::where('is_new', '1')->limit(4)->get();
+        $articles = $this->articleRepository->homepageArticles(3);
+        $products = $this->carRepository->homepageCars(4);
         return view('pages.homepage', compact('articles', 'products'));
     }
 
@@ -42,7 +49,7 @@ class PagesController extends Controller
 
     public function forClients(): View
     {
-        $cars = Car::with('carBody', 'carEngine', 'carClass')->get();
+        $cars = $this->carRepository->forClients();
         $avgPrice = $cars->avg('price');
         $avgDiscountPrice = $cars->whereNotNull('old_price')->avg('price');
         $mostExpensiveModel = $cars->where('price', $cars->max('price'))->toArray();
@@ -71,8 +78,9 @@ class PagesController extends Controller
 
     public function index(): View
     {
-        $articles = Article::latest('published_at')->limit(3)->get();
-        return view('pages.articles.index', compact('articles'));
+        $pagination = $this->articleRepository->getCatalog( 5);
+        $articles = $pagination->items();
+        return view('pages.articles.index', compact('articles', 'pagination'));
     }
 
     public function create(): View
@@ -80,45 +88,48 @@ class PagesController extends Controller
         return view('pages.articles.create');
     }
 
-    public function show(Article $article): View
+    public function show($article): View
     {
+        $article = $this->articleRepository->find($article);
         return view('pages.articles.show', compact('article'));
     }
 
-    public function store(ArticlePostRequest $request, TagPostRequest $tagRequest, TagsSynchronizer $tagsSynchronizer): RedirectResponse
+    public function store(ArticleRequest $request, TagRequest $tagRequest): RedirectResponse
     {
         $fields = $request->validated();
         $fields['published_at'] = $request->getPublishedAt();
-        $article = Article::create($fields);
+        $article = $this->articleRepository->create($fields);
 
         $tags = $tagRequest->getTags();
-        $tagsSynchronizer->sync($tags, $article);
+
+        $this->tagsSynchronizer->sync($tags, $this->articleRepository->find($article));
 
         return redirect()->route('articles.index')
             ->with('success', 'Новость успешно создана');
     }
 
-    public function edit(Article $article): View
+    public function edit($article): View
     {
+        $article = $this->articleRepository->find($article);
         return view('pages.articles.edit', compact('article'));
     }
 
-    public function update(Article $article, ArticlePostRequest $request, TagPostRequest $tagRequest, TagsSynchronizer $tagsSynchronizer): RedirectResponse
+    public function update($article, ArticleRequest $request, TagRequest $tagRequest): RedirectResponse
     {
         $fields = $request->validated();
         $fields['published_at'] = $request->getPublishedAt();
-        $article->update($fields);
+        $this->articleRepository->update($fields);
 
         $tags = $tagRequest->getTags();
-        $tagsSynchronizer->sync($tags, $article);
+        $this->tagsSynchronizer->sync($tags, $this->articleRepository->find($article));
 
         return redirect()->route('articles.index')
             ->with('success', 'Новость успешно изменена');
     }
 
-    public function destroy(Article $article): RedirectResponse
+    public function destroy($article): RedirectResponse
     {
-        $article->delete();
+        $this->articleRepository->delete($article);
         return redirect()->route('articles.index')
             ->with('success', 'Новость успешно удалена');
     }

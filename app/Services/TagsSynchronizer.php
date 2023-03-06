@@ -3,24 +3,29 @@
 namespace App\Services;
 
 use App\Contracts\HasTags;
+use App\Contracts\Repositories\TagRepositoryContract;
+use App\Contracts\Repositories\TagsSynchronizerContract;
 use App\Models\Tag;
 use Illuminate\Support\Collection;
 
-class TagsSynchronizer
+class TagsSynchronizer implements TagsSynchronizerContract
 {
-    public function sync(Collection $tags, HasTags $model)
+    public function __construct(
+        private readonly TagRepositoryContract     $tagRepository
+    ) {
+    }
+
+    public function sync(Collection $tags, HasTags $model): void
     {
-        $allTags = Tag::get()->keyBy('name');
-        $nonexistentTags = $tags->diffKeys($allTags);
-        if (!empty($nonexistentTags)) {
-            foreach ($nonexistentTags->keys() as $nonexistentTag) {
-                $model->tags()->create(
-                    ['name' => $nonexistentTag]
-                );
-            }
-            $allTags = Tag::get()->keyBy('name');
-        }
-        $syncIds = $allTags->intersectByKeys($tags)->pluck('id')->toArray();
-        $model->tags()->sync($syncIds);
+        // Get existing tags and create new ones
+        $existingTags = $this->tagRepository->existingTags($tags);
+        $newTagNames = $tags->diff($existingTags->pluck('name'));
+        $newTags = $newTagNames->map(function ($tagName) {
+            return $this->tagRepository->create(['name' => $tagName]);
+        });
+
+        // Associate all tags with the model
+        $allTags = $existingTags->merge($newTags);
+        $model->tags()->sync($allTags->pluck('id'));
     }
 }

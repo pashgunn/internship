@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
-class ArticlePostRequest extends FormRequest
+class ArticleRequest extends FormRequest
 {
     public function getPublishedAt()
     {
