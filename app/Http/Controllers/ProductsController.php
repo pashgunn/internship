@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\CarRepositoryContract;
+use App\Contracts\Repositories\CategoryRepositoryContract;
+use App\Models\Category;
 
 class ProductsController extends Controller
 {
     public function __construct(
         private readonly CarRepositoryContract $carRepository,
+        private readonly CategoryRepositoryContract $categoryRepository
     ) {
     }
 
@@ -22,5 +25,13 @@ class ProductsController extends Controller
     {
         $product = $this->carRepository->find($id);
         return view('pages.products.show', compact('product'));
+    }
+
+    public function category($id)
+    {
+        $categories = $this->categoryRepository->getCategoriesTree($id);
+        $pagination = $this->carRepository->catalogWithCategory($categories,16);
+        $products = $pagination->items();
+        return view('pages.products.index', compact('products', 'pagination', 'id'));
     }
 }

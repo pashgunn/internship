@@ -13,11 +13,6 @@ class TagRepository extends BaseRepository implements TagRepositoryContract
         parent::__construct($model);
     }
 
-    public function keyByTags(): Collection
-    {
-        return $this->model->get()->keyBy('name');
-    }
-
     public function existingTags(Collection $tags): Collection
     {
         return $this->model->whereIn('name', $tags)->get();

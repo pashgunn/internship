@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use App\Contracts\Repositories\CarRepositoryContract;
 use App\Models\Car;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class CarRepository extends BaseRepository implements CarRepositoryContract
 {
@@ -21,5 +22,10 @@ class CarRepository extends BaseRepository implements CarRepositoryContract
     public function forClients(): Collection
     {
         return $this->model->with('carBody', 'carEngine', 'carClass')->get();
+    }
+
+    public function catalogWithCategory(\Illuminate\Support\Collection $categories, int $paginatesCount): LengthAwarePaginator
+    {
+        return $this->model->whereIn('category_id', $categories)->paginate($paginatesCount);
     }
 }
