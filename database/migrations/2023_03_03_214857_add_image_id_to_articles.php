@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->foreignId('image_id')->after('body');
+            $table->foreignId('image_id')->after('body')->constrained();
         });
     }
 

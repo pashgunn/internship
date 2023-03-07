@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\ArticleRepositoryContract;
+use App\Contracts\Repositories\BannerRepositoryContract;
 use App\Contracts\Repositories\CarRepositoryContract;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
@@ -12,6 +13,7 @@ class PagesController extends Controller
     public function __construct(
         private readonly ArticleRepositoryContract $articleRepository,
         private readonly CarRepositoryContract     $carRepository,
+        private readonly BannerRepositoryContract $bannerRepository
     ) {
     }
 
@@ -19,7 +21,8 @@ class PagesController extends Controller
     {
         $articles = $this->articleRepository->homepageArticles(3);
         $products = $this->carRepository->homepageCars(4);
-        return view('pages.homepage', compact('articles', 'products'));
+        $banners = $this->bannerRepository->getRandomBanners();
+        return view('pages.homepage', compact('articles', 'products', 'banners'));
     }
 
     public function about(): View
