@@ -8,10 +8,12 @@
         <x-panels.nav-element route="products.index">
             Каталог
         </x-panels.nav-element>
-        <x-panels.nav-element route="products.index">
-            Легковые
-        </x-panels.nav-element>
-        <span>Седан</span>
+        @isset($id)
+            <x-panels.nav-element route="products.index">
+                Легковые
+            </x-panels.nav-element>
+            <span>Седаны</span>
+        @endisset
     </x-panels.nav>
 @endsection
 
@@ -21,7 +23,7 @@
 
     <x-panels.car-catalog>
         @foreach($products as $product)
-            <x-panels.car-catalog-element src="{{ asset('pictures/car_ceed.png') }}" :$product/>
+            <x-panels.car-catalog-element src="{{ Storage::url($product->mainImage->path) }}" :$product/>
         @endforeach
     </x-panels.car-catalog>
 

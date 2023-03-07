@@ -1,7 +1,7 @@
 @props(['article'])
 
 @csrf
-
+<a class="text-black hover:text-orange" href="{{ url()->previous() }}">Назад</a>
 <div class="mt-8 max-w-md">
     <div class="grid grid-cols-1 gap-6">
         <x-input.group for="inputTitle" :error="$errors->first('title')">
@@ -29,6 +29,10 @@
         <x-input.group for="inputPublishedAt">
             <x-slot name="name">Выбор даты публикации</x-slot>
             <x-input.date id="inputPublishedAt" name="published_at" value="{{ old('published_at', \Carbon\Carbon::parse($article->published_at)->toDateString()) }}"/>
+        </x-input.group>
+        <x-input.group for="inputImage">
+            <x-slot name="name"></x-slot>
+            <x-input.file id="inputImage" name="image"/>
         </x-input.group>
         <x-input.checkbox name="isPublished" isChecked="{{ old('isPublished', $article->published_at) }}" >
             Опубликован

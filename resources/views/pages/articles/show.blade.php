@@ -21,7 +21,7 @@
 
             <a class="hover:text-orange" href="{{ route('articles.edit', $article->slug) }}">Редактирование новости</a>
 
-            <img src="{{ asset('/pictures/car_new_stinger.png') }}" alt="" title="">
+            <img src="{{ Storage::url($article->image->path) }}" alt="" title="">
 
             <div>
                 <x-panels.tags :$article/>

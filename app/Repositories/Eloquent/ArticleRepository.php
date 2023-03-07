@@ -28,8 +28,8 @@ class ArticleRepository extends BaseRepository implements ArticleRepositoryContr
             ->paginate($paginatesCount);
     }
 
-    public function find($id): ?Article
+    public function findBySlug(string $slug): ?Article
     {
-        return $this->model->where('slug', $id)->first();
+        return $this->model->where('slug', $slug)->first();
     }
 }

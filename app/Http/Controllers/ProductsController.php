@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\CarRepositoryContract;
 use App\Contracts\Repositories\CategoryRepositoryContract;
-use App\Models\Category;
 
 class ProductsController extends Controller
 {

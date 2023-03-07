@@ -23,7 +23,7 @@ class BaseRepository implements EloquentRepositoryContract
         return $this->model->create($attributes);
     }
 
-    public function delete(int $id): bool
+    public function delete(string $id): bool
     {
         return $this->model->where('slug', $id)->first()->delete();
     }
@@ -31,11 +31,6 @@ class BaseRepository implements EloquentRepositoryContract
     public function find(int $id): ?Model
     {
         return $this->model->find($id);
-    }
-
-    public function update(array $attributes): bool
-    {
-        return $this->model->update($attributes);
     }
 
     public function getCatalog(int $paginatesCount): LengthAwarePaginator

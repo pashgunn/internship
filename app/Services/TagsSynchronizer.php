@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Contracts\HasTags;
 use App\Contracts\Repositories\TagRepositoryContract;
 use App\Contracts\Repositories\TagsSynchronizerContract;
-use App\Models\Tag;
 use Illuminate\Support\Collection;
 
 class TagsSynchronizer implements TagsSynchronizerContract

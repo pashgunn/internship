@@ -10,7 +10,7 @@ Route::get('finance-department',   ['uses' => 'PagesController@financeDepartment
 Route::get('for-clients',          ['uses' => 'PagesController@forClients',                'as' => 'for-clients']);
 Route::get('salons',               ['uses' => 'PagesController@salons',                    'as' => 'salons']);
 
-Route::resource('articles', 'PagesController');
+Route::resource('articles', 'ArticlesController');
 
 Route::get('catalog',        ['uses' => 'ProductsController@index', 'as' => 'products.index']);
 Route::get('products/{id}',  ['uses' => 'ProductsController@show',  'as' => 'products.show']);
