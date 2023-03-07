@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Contracts\Repositories\BannerRepositoryContract;
 use App\Models\Banner;
+use Illuminate\Support\Collection;
 
 class BannerRepository extends BaseRepository implements BannerRepositoryContract
 {
@@ -12,9 +13,8 @@ class BannerRepository extends BaseRepository implements BannerRepositoryContrac
         parent::__construct($model);
     }
 
-    public function getRandomBanners()
+    public function getRandomBanners(int $count): Collection
     {
-        return $this->model->inRandomOrder()->limit(3)->get();
+        return $this->model->inRandomOrder()->limit($count)->get();
     }
-
 }

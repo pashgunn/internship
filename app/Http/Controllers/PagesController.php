@@ -21,7 +21,7 @@ class PagesController extends Controller
     {
         $articles = $this->articleRepository->homepageArticles(3);
         $products = $this->carRepository->homepageCars(4);
-        $banners = $this->bannerRepository->getRandomBanners();
+        $banners = $this->bannerRepository->getRandomBanners(3);
         return view('pages.homepage', compact('articles', 'products', 'banners'));
     }
 
