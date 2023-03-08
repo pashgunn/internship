@@ -38,10 +38,9 @@ class ArticleCreateUpdateService implements ArticleCreateUpdateServiceContract
 
         $article = $this->articleRepository->create($fields);
 
-        //delete cache for articles
-        Cache::tags(['articles'])->flush();
-
         $this->tagsSynchronizer->sync($tags, $article);
+
+        Cache::tags(['articles'])->flush();
     }
 
     public function update(Article $article, ArticleRequest $articleRequest, Collection $tags, UploadedFile $file): void
@@ -51,10 +50,9 @@ class ArticleCreateUpdateService implements ArticleCreateUpdateServiceContract
 
         $article->update($fields);
 
-        //delete cache for articles
-        Cache::tags(['articles'])->flush();
-
         $this->tagsSynchronizer->sync($tags, $article);
+
+        Cache::tags(['articles'])->flush();
     }
 
 }

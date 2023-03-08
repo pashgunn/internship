@@ -19,7 +19,7 @@ class CarRepository extends BaseRepository implements CarRepositoryContract
     {
         $cacheKey = 'homepageCars:' . $paginatesCount;
         $cacheDuration = now()->addHour();
-        return Cache::tags(['homepage', 'cars'])
+        return Cache::tags(['homepage', 'cars', 'images'])
             ->remember($cacheKey, $cacheDuration, fn () =>$this->model->with('mainImage')->where('is_new', true)->limit($paginatesCount)->get());
     }
 
@@ -32,7 +32,7 @@ class CarRepository extends BaseRepository implements CarRepositoryContract
     {
         $cacheKey = 'catalogPage:' . $page;
         $cacheDuration = now()->addHour();
-        return Cache::tags(['catalog', 'cars'])
+        return Cache::tags(['catalog', 'cars', 'images'])
             ->remember($cacheKey, $cacheDuration, fn () => $this->model->with('mainImage')->paginate($paginatesCount));
     }
 
@@ -40,7 +40,7 @@ class CarRepository extends BaseRepository implements CarRepositoryContract
     {
         $cacheKey = 'categoriesIds:' . $categoriesId . ' catalogPage:' . $page;
         $cacheDuration = now()->addHour();
-        return Cache::tags(['catalog', 'cars'])
+        return Cache::tags(['catalog', 'cars', 'images'])
             ->remember($cacheKey, $cacheDuration, fn () => $this->model->with('mainImage')->whereIn('category_id', $categoriesId)->paginate($paginatesCount));
     }
 }

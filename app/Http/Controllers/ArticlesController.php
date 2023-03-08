@@ -72,7 +72,7 @@ class ArticlesController extends Controller
         $this->articleRepository->delete($article);
 
         //delete cache for article
-        Cache::tags(['articles'])->flush();
+        Cache::tags(['articles', 'images', 'tags'])->flush();
 
         return redirect()->route('articles.index')
             ->with('success', 'Новость успешно удалена');

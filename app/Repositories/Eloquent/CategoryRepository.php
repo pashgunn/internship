@@ -22,8 +22,8 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryCon
         return Cache::tags(['category', 'cars'])
             ->remember($cacheKey, $cacheDuration,
                 fn() => $this->model
-                    ->descendantsAndSelf($this->model->where('slug', $id)
-                        ->first()->id)->pluck('id'));
+                    ->descendantsAndSelf($this->model
+                        ->where('slug', $id)->first()->id)->pluck('id'));
     }
 
     public function categoriesToTree(): Collection

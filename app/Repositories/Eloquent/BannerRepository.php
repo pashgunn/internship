@@ -18,7 +18,7 @@ class BannerRepository extends BaseRepository implements BannerRepositoryContrac
     {
         $cacheKey = 'RandomBanners:' . $count;
         $cacheDuration = now()->addHour();
-        return Cache::tags(['homepage', 'banners'])
+        return Cache::tags(['homepage', 'banners', 'images'])
             ->remember($cacheKey, $cacheDuration, fn () => $this->model->with('image')->inRandomOrder()->limit($count)->get());
     }
 }

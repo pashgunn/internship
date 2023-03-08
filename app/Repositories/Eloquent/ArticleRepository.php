@@ -19,7 +19,7 @@ class ArticleRepository extends BaseRepository implements ArticleRepositoryContr
     {
         $cacheKey = 'homepageArticles:' . $paginatesCount;
         $cacheDuration = now()->addHour();
-        return Cache::tags(['homepage', 'articles'])
+        return Cache::tags(['homepage', 'articles', 'tags', 'images'])
             ->remember($cacheKey, $cacheDuration,
                 fn() => $this->model->with('tags', 'image')->latest('published_at')->limit($paginatesCount)->get());
     }
@@ -28,7 +28,7 @@ class ArticleRepository extends BaseRepository implements ArticleRepositoryContr
     {
         $cacheKey = 'articlePage:' . $page;
         $cacheDuration = now()->addHour();
-        return Cache::tags(['catalog', 'articles'])
+        return Cache::tags(['catalog', 'articles', 'tags', 'images'])
             ->remember($cacheKey, $cacheDuration, fn() => $this->model
                 ->whereNotNull('published_at')
                 ->with('tags', 'image')
@@ -40,7 +40,7 @@ class ArticleRepository extends BaseRepository implements ArticleRepositoryContr
     {
         $cacheKey = 'findBySlug:' . $slug;
         $cacheDuration = now()->addHour();
-        return Cache::tags(['catalog', 'articles'])
+        return Cache::tags(['catalog', 'articles', 'tags', 'images'])
             ->remember($cacheKey, $cacheDuration, fn() => $this->model->with('tags','image')->where('slug', $slug)->first());
     }
 }
