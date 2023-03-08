@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\Repositories\ArticleCreateUpdateServiceContract;
 use App\Contracts\Repositories\ArticleRepositoryContract;
+use App\Contracts\Repositories\CreateArticleServiceContract;
+use App\Contracts\Repositories\UpdateArticleServiceContract;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\TagRequest;
 use Illuminate\Contracts\View\View;
@@ -15,7 +16,8 @@ class ArticlesController extends Controller
 {
     public function __construct(
         private readonly ArticleRepositoryContract $articleRepository,
-        private readonly ArticleCreateUpdateServiceContract $articleCreateUpdateService
+        private readonly CreateArticleServiceContract $createArticleService,
+        private readonly UpdateArticleServiceContract $updateArticleService
     ) {
     }
     public function index(Request $request): View
@@ -38,7 +40,7 @@ class ArticlesController extends Controller
 
     public function store(ArticleRequest $articleRequest, TagRequest $tagRequest): RedirectResponse
     {
-        $this->articleCreateUpdateService->create(
+        $this->createArticleService->create(
             $articleRequest,
             $tagRequest->getTags(),
             $articleRequest->file('image')
@@ -56,7 +58,7 @@ class ArticlesController extends Controller
 
     public function update($slug, ArticleRequest $articleRequest, TagRequest $tagRequest): RedirectResponse
     {
-        $this->articleCreateUpdateService->update(
+        $this->updateArticleService->update(
             $this->articleRepository->findBySlug($slug),
             $articleRequest,
             $tagRequest->getTags(),
