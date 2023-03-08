@@ -1,8 +1,16 @@
 @props(['article'])
 
 @csrf
-<a class="text-black hover:text-orange" href="{{ url()->previous() }}">Назад</a>
+
 <div class="mt-8 max-w-md">
+    <div class="mt-4">
+        <a class="inline-flex items-center text-orange hover:opacity-75" href="{{ request()->routeIs('articles.create') ? route('articles.index') : route('articles.show', $article->slug) }}">
+            <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+            </svg>
+            Назад
+        </a>
+    </div>
     <div class="grid grid-cols-1 gap-6">
         <x-input.group for="inputTitle" :error="$errors->first('title')">
             <x-slot name="name">Название новости</x-slot>

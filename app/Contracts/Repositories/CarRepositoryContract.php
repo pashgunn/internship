@@ -9,5 +9,6 @@ interface CarRepositoryContract
 {
     public function homepageCars(int $paginatesCount): Collection;
     public function forClients(): Collection;
-    public function catalogWithCategory(\Illuminate\Support\Collection $categories, int $paginatesCount): LengthAwarePaginator;
+    public function catalogWithCategory(int $page, \Illuminate\Support\Collection $categoriesId, int $paginatesCount): LengthAwarePaginator;
+    public function getCarCatalog(int $page, int $paginatesCount): LengthAwarePaginator;
 }

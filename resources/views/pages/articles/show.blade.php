@@ -27,7 +27,7 @@
                 <x-panels.tags :$article/>
             </div>
             {!! $article->body  !!}
-            </div>
+        </div>
 
         <div class="mt-4">
             <a class="inline-flex items-center text-orange hover:opacity-75" href="{{ route('articles.index') }}">

@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use App\Contracts\Repositories\BannerRepositoryContract;
 use App\Models\Banner;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class BannerRepository extends BaseRepository implements BannerRepositoryContract
 {
@@ -15,6 +16,9 @@ class BannerRepository extends BaseRepository implements BannerRepositoryContrac
 
     public function getRandomBanners(int $count): Collection
     {
-        return $this->model->inRandomOrder()->limit($count)->get();
+        $cacheKey = 'RandomBanners:' . $count;
+        $cacheDuration = now()->addHour();
+        return Cache::tags(['homepage', 'banners'])
+            ->remember($cacheKey, $cacheDuration, fn () => $this->model->with('image')->inRandomOrder()->limit($count)->get());
     }
 }

@@ -6,6 +6,7 @@ use App\Contracts\Repositories\ArticleRepositoryContract;
 use App\Models\Article;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 
 class ArticleRepository extends BaseRepository implements ArticleRepositoryContract
 {
@@ -16,20 +17,30 @@ class ArticleRepository extends BaseRepository implements ArticleRepositoryContr
 
     public function homepageArticles(int $paginatesCount): Collection
     {
-        return $this->model->with('tags')->latest('published_at')->limit($paginatesCount)->get();
+        $cacheKey = 'homepageArticles:' . $paginatesCount;
+        $cacheDuration = now()->addHour();
+        return Cache::tags(['homepage', 'articles'])
+            ->remember($cacheKey, $cacheDuration,
+                fn() => $this->model->with('tags', 'image')->latest('published_at')->limit($paginatesCount)->get());
     }
 
-    public function getCatalog(int $paginatesCount): LengthAwarePaginator
+    public function getArticlesCatalog(int $page, int $paginatesCount): LengthAwarePaginator
     {
-        return $this->model
-            ->whereNotNull('published_at')
-            ->with('tags')
-            ->latest('published_at')
-            ->paginate($paginatesCount);
+        $cacheKey = 'articlePage:' . $page;
+        $cacheDuration = now()->addHour();
+        return Cache::tags(['catalog', 'articles'])
+            ->remember($cacheKey, $cacheDuration, fn() => $this->model
+                ->whereNotNull('published_at')
+                ->with('tags', 'image')
+                ->latest('published_at')
+                ->paginate($paginatesCount));
     }
 
     public function findBySlug(string $slug): ?Article
     {
-        return $this->model->where('slug', $slug)->first();
+        $cacheKey = 'findBySlug:' . $slug;
+        $cacheDuration = now()->addHour();
+        return Cache::tags(['catalog', 'articles'])
+            ->remember($cacheKey, $cacheDuration, fn() => $this->model->with('tags','image')->where('slug', $slug)->first());
     }
 }

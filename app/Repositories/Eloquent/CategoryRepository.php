@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use App\Contracts\Repositories\CategoryRepositoryContract;
 use App\Models\Category;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class CategoryRepository extends BaseRepository implements CategoryRepositoryContract
 {
@@ -13,18 +14,22 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryCon
         parent::__construct($model);
     }
 
-    public function getCategoriesTree(string $id): Collection
+    public function getCategoriesTreeId(string $id): Collection
     {
-        $category = $this->model->where('slug', $id)->first();
-        $categoryId = $category->id;
+        $cacheKey = 'category:' . $id;
+        $cacheDuration = now()->addHour();
 
-        return $this->model->descendantsAndSelf($categoryId)->pluck('id');
+        return Cache::tags(['category', 'cars'])
+            ->remember($cacheKey, $cacheDuration,
+                fn() => $this->model
+                    ->descendantsAndSelf($this->model->where('slug', $id)
+                        ->first()->id)->pluck('id'));
     }
 
     public function categoriesToTree(): Collection
     {
         return $this->model->withDepth()->having('depth', '<', 3)->get()->toTree()->sortBy('sort')->map(function ($category) {
-            if($category->descendants->isNotEmpty()) {
+            if ($category->descendants->isNotEmpty()) {
                 $category->descendants = $category->descendants->sortBy('sort');
             }
             return $category;

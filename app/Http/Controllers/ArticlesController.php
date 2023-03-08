@@ -8,6 +8,8 @@ use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\TagRequest;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ArticlesController extends Controller
 {
@@ -16,9 +18,9 @@ class ArticlesController extends Controller
         private readonly ArticleCreateUpdateServiceContract $articleCreateUpdateService
     ) {
     }
-    public function index(): View
+    public function index(Request $request): View
     {
-        $pagination = $this->articleRepository->getCatalog( 5);
+        $pagination = $this->articleRepository->getArticlesCatalog($request->input('page') ?? 1, 5);
         $articles = $pagination->items();
         return view('pages.articles.index', compact('articles', 'pagination'));
     }
@@ -68,6 +70,10 @@ class ArticlesController extends Controller
     public function destroy($article): RedirectResponse
     {
         $this->articleRepository->delete($article);
+
+        //delete cache for article
+        Cache::tags(['articles'])->flush();
+
         return redirect()->route('articles.index')
             ->with('success', 'Новость успешно удалена');
     }
