@@ -21,14 +21,13 @@
 
             <a class="hover:text-orange" href="{{ route('articles.edit', $article->slug) }}">Редактирование новости</a>
 
-            <img src="{{ asset('/pictures/car_new_stinger.png') }}" alt="" title="">
+            <img src="{{ Storage::url($article->image->path) }}" alt="" title="">
 
             <div>
-                <span class="text-sm text-white italic rounded bg-orange px-2">Это</span>
-                <span class="text-sm text-white italic rounded bg-orange px-2">Теги</span>
+                <x-panels.tags :$article/>
             </div>
             {!! $article->body  !!}
-            </div>
+        </div>
 
         <div class="mt-4">
             <a class="inline-flex items-center text-orange hover:opacity-75" href="{{ route('articles.index') }}">

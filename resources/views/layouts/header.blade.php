@@ -39,37 +39,7 @@
                         </svg>
                     </button>
                 </form>
-
-                <nav class="order-1">
-                    <ul class="block lg:flex">
-                        <li class="group">
-                            <x-panels.car-type>
-                                Легковые
-                            </x-panels.car-type>
-
-                            <ul class="dropdown-navigation-submenu absolute hidden group-hover:block bg-white shadow-lg">
-                                <li><a class="block py-2 px-4 text-black hover:text-orange hover:bg-gray-100" href="catalog.html">Седаны</a></li>
-                                <li><a class="block py-2 px-4 text-black hover:text-orange hover:bg-gray-100" href="catalog.html">Хетчбеки</a></li>
-                                <li><a class="block py-2 px-4 text-black hover:text-orange hover:bg-gray-100" href="catalog.html">Универсалы</a></li>
-                                <li><a class="block py-2 px-4 text-black hover:text-orange hover:bg-gray-100" href="catalog.html">Купе</a></li>
-                                <li><a class="block py-2 px-4 text-black hover:text-orange hover:bg-gray-100" href="catalog.html">Родстеры</a></li>
-                            </ul>
-                        </li>
-                        <li class="group">
-                            <x-panels.car-type>
-                                Внедорожники
-                            </x-panels.car-type>
-                            <ul class="dropdown-navigation-submenu absolute hidden group-hover:block bg-white shadow-lg">
-                                <li><a class="block py-2 px-4 text-black hover:text-orange hover:bg-gray-100" href="catalog.html">Рамные</a></li>
-                                <li><a class="block py-2 px-4 text-black hover:text-orange hover:bg-gray-100" href="catalog.html">Пикапы</a></li>
-                                <li><a class="block py-2 px-4 text-black hover:text-orange hover:bg-gray-100" href="catalog.html">Кроссоверы</a></li>
-                            </ul>
-                        </li>
-                        <li class="group"><a class="inline-block p-4 text-black font-bold hover:text-orange" href="catalog.html">Раритетные</a></li>
-                        <li class="group"><a class="inline-block p-4 text-black font-bold hover:text-orange" href="catalog.html">Распродажа</a></li>
-                        <li class="group"><a class="inline-block p-4 text-black font-bold hover:text-orange" href="catalog.html">Новинки</a></li>
-                    </ul>
-                </nav>
+                <x-panels.menu/>
             </div>
         </div>
     </header>

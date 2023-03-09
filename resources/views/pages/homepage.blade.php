@@ -7,17 +7,16 @@
 @section('content')
     <section class="bg-white">
         <div data-slick-carousel>
-            <x-panels.relative-banner src="/pictures/test_banner_1.jpg">
-                Купи Астон Мартин, получи секретное Задание
-            </x-panels.relative-banner>
-
-            <x-panels.relative-banner src="/pictures/test_banner_2.jpg">
-                Купи Роллс Ройс, получи Отчество к&nbsp;своему имени
-            </x-panels.relative-banner>
-
-            <x-panels.relative-banner src="/pictures/test_banner_3.jpg">
-                Купи Бентли, получи бейсболку
-            </x-panels.relative-banner>
+            @foreach($banners as $banner)
+                <x-panels.relative-banner src="{{ Storage::url($banner->image->path) }}">
+                    <x-slot name="title">
+                        {{ $banner->title }}
+                    </x-slot>
+                    <x-slot name="description">
+                        {{ $banner->description }}
+                    </x-slot>
+                </x-panels.relative-banner>
+            @endforeach
         </div>
     </section>
     @if($products->count())
@@ -25,7 +24,7 @@
         <p class="inline-block text-3xl text-black font-bold mb-4">Модели недели</p>
         <x-panels.car-catalog>
             @foreach($products as $product)
-                <x-panels.car-catalog-element src="/pictures/car_cerato.png" :$product/>
+                <x-panels.car-catalog-element src="{{ Storage::url($product->mainImage->path) }}" :$product/>
             @endforeach
         </x-panels.car-catalog>
     </section>
