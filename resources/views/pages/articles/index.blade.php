@@ -6,7 +6,6 @@
     <x-panels.success/>
 
     <a class="hover:text-orange" href="{{ route('articles.create') }}">Создание новости</a>
-
     <div class="space-y-4">
         <x-panels.articles-all :$articles/>
         <div>

@@ -9,6 +9,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 interface ArticleRepositoryContract
 {
     public function homepageArticles(int $paginatesCount): Collection;
-    public function getCatalog(int $paginatesCount): LengthAwarePaginator;
+    public function getArticlesCatalog(int $page, int $paginatesCount): LengthAwarePaginator;
     public function findBySlug(string $slug): ?Article;
 }

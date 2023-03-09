@@ -6,6 +6,7 @@ use App\Contracts\HasTags;
 use App\Contracts\Repositories\TagRepositoryContract;
 use App\Contracts\Repositories\TagsSynchronizerContract;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class TagsSynchronizer implements TagsSynchronizerContract
 {
@@ -26,5 +27,8 @@ class TagsSynchronizer implements TagsSynchronizerContract
         // Associate all tags with the model
         $allTags = $existingTags->merge($newTags);
         $model->tags()->sync($allTags->pluck('id'));
+
+        //delete cache for tags
+        Cache::tags(['tags'])->flush();
     }
 }

@@ -11,6 +11,7 @@ use App\Models\Article;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class ArticleCreateUpdateService implements ArticleCreateUpdateServiceContract
 {
@@ -36,7 +37,10 @@ class ArticleCreateUpdateService implements ArticleCreateUpdateServiceContract
         $fields = $this->prepareArticleFields($articleRequest, $image);
 
         $article = $this->articleRepository->create($fields);
+
         $this->tagsSynchronizer->sync($tags, $article);
+
+        Cache::tags(['articles'])->flush();
     }
 
     public function update(Article $article, ArticleRequest $articleRequest, Collection $tags, UploadedFile $file): void
@@ -45,7 +49,10 @@ class ArticleCreateUpdateService implements ArticleCreateUpdateServiceContract
         $fields = $this->prepareArticleFields($articleRequest, $image);
 
         $article->update($fields);
+
         $this->tagsSynchronizer->sync($tags, $article);
+
+        Cache::tags(['articles'])->flush();
     }
 
 }

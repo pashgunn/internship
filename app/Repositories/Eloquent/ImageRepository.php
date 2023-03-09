@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use App\Contracts\Repositories\ImageRepositoryContract;
 use App\Models\Image;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Cache;
 
 class ImageRepository extends BaseRepository implements ImageRepositoryContract
 {
@@ -16,6 +17,11 @@ class ImageRepository extends BaseRepository implements ImageRepositoryContract
     public function imageCreate(UploadedFile $file): Image
     {
         $path = $file->store('images', ['disk' => 'public']);
-        return $this->create(['path' => $path]);
+        $image = $this->create(['path' => $path]);
+
+        //delete cache for images
+        Cache::tags(['images'])->flush();
+
+        return $image;
     }
 }
