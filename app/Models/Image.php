@@ -27,4 +27,9 @@ class Image extends Model
     {
         return $this->belongsToMany(Car::class);
     }
+
+    public function banners(): HasMany
+    {
+        return $this->hasMany(Banner::class);
+    }
 }

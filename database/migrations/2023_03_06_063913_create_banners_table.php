@@ -13,8 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('cars', function (Blueprint $table) {
-            $table->foreignId('image_id')->after('category_id')->constrained();
+        Schema::create('banners', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->string('description');
+            $table->string('url')->nullable();
+            $table->foreignId('image_id');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('cars', function (Blueprint $table) {
-            $table->dropColumn('image_id');
-        });
+        Schema::dropIfExists('banners');
     }
 };
