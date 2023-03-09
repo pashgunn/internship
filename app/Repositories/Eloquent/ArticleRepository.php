@@ -26,7 +26,7 @@ class ArticleRepository extends BaseRepository implements ArticleRepositoryContr
 
     public function getArticlesCatalog(int $page, int $paginatesCount): LengthAwarePaginator
     {
-        $cacheKey = 'articlePage:' . $page;
+        $cacheKey = 'articlePage:' . $page . ' articlesPerPage:' . $paginatesCount;
         $cacheDuration = now()->addHour();
         return Cache::tags(['catalog', 'articles', 'tags', 'images'])
             ->remember($cacheKey, $cacheDuration, fn() => $this->model
