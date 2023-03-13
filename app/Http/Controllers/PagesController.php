@@ -73,4 +73,9 @@ class PagesController extends Controller
     {
         return view('pages.salons');
     }
+
+    public function account(): View
+    {
+        return view('pages.account');
+    }
 }
