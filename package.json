@@ -1,19 +1,40 @@
 {
-    "private": true,
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build"
-    },
-    "devDependencies": {
-        "@popperjs/core": "^2.11.6",
-        "@vitejs/plugin-vue": "^4.0.0",
-        "axios": "^1.1.2",
-        "bootstrap": "^5.2.3",
-        "laravel-vite-plugin": "^0.7.2",
-        "lodash": "^4.17.19",
-        "postcss": "^8.1.14",
-        "sass": "^1.56.1",
-        "vite": "^4.0.0",
-        "vue": "^3.2.37"
-    }
+  "private": true,
+  "scripts": {
+      "dev": "npm run development",
+      "development": "mix",
+      "watch": "mix watch",
+      "watch-poll": "mix watch -- --watch-options-poll=1000",
+      "hot": "mix watch --hot",
+      "prod": "npm run production",
+      "production": "mix --production"
+  },
+  "devDependencies": {
+    "@popperjs/core": "^2.11.6",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "axios": "^1.1.2",
+    "bootstrap": "^5.2.3",
+    "laravel-mix": "^6.0.49",
+    "laravel-vite-plugin": "^0.7.2",
+    "lodash": "^4.17.19",
+    "postcss": "^8.1.14",
+    "sass": "^1.56.1",
+    "vite": "^4.0.0",
+    "vue": "^3.2.37"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "jquery": "^3.6.4",
+    "slick-carousel": "^1.8.1"
+  },
+  "name": "internship_laravel",
+  "description": "|     Страница    |                         Назначение                        |                Вид               |\r |:---------------:|:---------------------------------------------------------:|:--------------------------------:|\r | article.html    | Детальная страница новости                                | С боковым меню                   |\r | authorized.html | Пример отображения шапки для авторизованного пользователя | Без бокового меню                |\r | catalog.html    | Каталог моделей                                           | Без бокового меню                |\r | detail.html     | Детальная страница модели                                 | Без бокового меню                |\r | form.html       | Gui для веб-форм                                          | Без бокового меню                |\r | index.html      | Главная страница                                          | Без бокового меню, без заголовка |\r | inner.html      | Вложенная страница                                        | С боковым меню                   |\r | news.html       | Страница списка новостей                                  | С боковым меню                   |\r | salons.html     | Страница списка салонов                                   | С боковым меню                   |",
+  "version": "1.0.0",
+  "main": "vite.config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

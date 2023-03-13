@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('page.title', 'Каталог')
+
 @section('nav')
     <x-panels.nav>
         <x-panels.nav-element route="homepage">
