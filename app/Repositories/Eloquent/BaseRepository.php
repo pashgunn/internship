@@ -25,7 +25,7 @@ class BaseRepository implements EloquentRepositoryContract
 
     public function delete(string $id): bool
     {
-        return $this->model->where('slug', $id)->first()->delete();
+        return $this->model->firstWhere('slug', $id)->delete();
     }
 
     public function find(int $id): ?Model

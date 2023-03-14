@@ -5,9 +5,6 @@
                     <a href="{{ route('homepage') }}" class="inline-block sm:inline hover:opacity-75">
                         <img src="{{ asset('/images/logo.png') }}" width="222" height="30" alt="">
                     </a>
-{{--                        <span class="inline-block sm:inline">--}}
-{{--                            <img src="{{ asset('/images/logo.png') }}" width="222" height="30" alt="">--}}
-{{--                        </span>--}}
                 </div>
                 <div>
                     <ul class="flex justify-center sm:justify-end items-center space-x-8 text-sm">

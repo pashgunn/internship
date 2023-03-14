@@ -2,24 +2,6 @@
 
 @section('page.title', $product->name)
 
-@section('nav')
-    <x-panels.nav>
-        <x-panels.nav-element route="homepage">
-            Главная
-        </x-panels.nav-element>
-        <x-panels.nav-element route="products.index">
-            Каталог
-        </x-panels.nav-element>
-        <x-panels.nav-element route="products.index">
-            Легковые
-        </x-panels.nav-element>
-        <x-panels.nav-element route="products.index">
-            Седан
-        </x-panels.nav-element>
-        <span>{{ $product->name }}</span>
-    </x-panels.nav>
-@endsection
-
 @section('content')
         <div class="p-4">
             <h1 class="text-black text-3xl font-bold mb-4">{{ $product->name }}</h1>
@@ -41,12 +23,12 @@
                             <p class="font-bold text-2xl text-orange">{{ number_format($product->price, 0, '', ' ') }} ₽</p>
                             <div class="mt-4 block">
                                 <form>
-                                    <button class="inline-block bg-orange hover:bg-opacity-70 focus:outline-none text-white font-bold py-2 px-4 rounded">
+                                    <x-input.button-orange>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                         </svg>
                                         Купить
-                                    </button>
+                                    </x-input.button-orange>
                                 </form>
                             </div>
                         </div>

@@ -41,6 +41,6 @@ class ArticleRepository extends BaseRepository implements ArticleRepositoryContr
         $cacheKey = 'findBySlug:' . $slug;
         $cacheDuration = now()->addHour();
         return Cache::tags(['catalog', 'articles', 'tags', 'images'])
-            ->remember($cacheKey, $cacheDuration, fn() => $this->model->with('tags','image')->where('slug', $slug)->first());
+            ->remember($cacheKey, $cacheDuration, fn() => $this->model->with('tags','image')->firstWhere('slug', $slug));
     }
 }
