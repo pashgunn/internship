@@ -2,7 +2,6 @@
 
 <div class="mt-8 max-w-md">
     <div class="grid grid-cols-1 gap-6">
-        @dump($errors)
         <x-input.group for="inputName" :error="$errors->first('name')">
             <x-slot name="name">Имя</x-slot>
             <x-input.text id="inputName" name="name" value="{{ old('name') }}"

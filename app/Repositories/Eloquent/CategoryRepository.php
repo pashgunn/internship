@@ -23,7 +23,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryCon
             ->remember($cacheKey, $cacheDuration,
                 fn() => $this->model
                     ->descendantsAndSelf($this->model
-                        ->where('slug', $id)->first()->id)->pluck('id'));
+                        ->firstWhere('slug', $id)->id)->pluck('id'));
     }
 
     public function categoriesToTree(): Collection
@@ -34,5 +34,10 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryCon
             }
             return $category;
         });
+    }
+
+    public function findBySlug(string $slug): ?Category
+    {
+        return $this->model->firstWhere('slug', $slug);
     }
 }

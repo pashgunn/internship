@@ -28,11 +28,11 @@ class ProductsController extends Controller
         return view('pages.products.show', compact('product'));
     }
 
-    public function category(string $id, Request $request): View
+    public function category(string $slug, Request $request): View
     {
-        $categoriesId = $this->categoryRepository->getCategoriesTreeId($id);
+        $categoriesId = $this->categoryRepository->getCategoriesTreeId($slug);
         $pagination = $this->carRepository->catalogWithCategory($request->input('page') ?? 1, $categoriesId, 16);
         $products = $pagination->items();
-        return view('pages.products.index', compact('products', 'pagination', 'id'));
+        return view('pages.products.index', compact('products', 'pagination'));
     }
 }
