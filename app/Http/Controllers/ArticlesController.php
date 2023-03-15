@@ -10,7 +10,6 @@ use App\Http\Requests\TagRequest;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class ArticlesController extends Controller
 {
@@ -72,9 +71,6 @@ class ArticlesController extends Controller
     public function destroy($article): RedirectResponse
     {
         $this->articleRepository->delete($article);
-
-        //delete cache for article
-        Cache::tags(['articles', 'images', 'tags'])->flush();
 
         return redirect()->route('articles.index')
             ->with('success', 'Новость успешно удалена');
