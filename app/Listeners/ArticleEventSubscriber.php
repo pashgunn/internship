@@ -12,24 +12,24 @@ class ArticleEventSubscriber
 {
     public function handleArticleCreated(ArticleCreated $event): void
     {
-        if(!empty(config('mail.to.address'))) {
-            Notification::route('mail', config('mail.to.address'))
+        if($email = config('mail.to.address')) {
+            Notification::route('mail', $email)
                 ->notify(new \App\Notifications\ArticleCreated($event->article));
         }
     }
 
     public function handleArticleUpdated(ArticleUpdated $event): void
     {
-        if(!empty(config('mail.to.address'))) {
-            Notification::route('mail', config('mail.to.address'))
+        if($email = config('mail.to.address')) {
+            Notification::route('mail', $email)
                 ->notify(new \App\Notifications\ArticleUpdated($event->article));
         }
     }
 
     public function handleArticleDeleted(ArticleDeleted $event): void
     {
-        if(!empty(config('mail.to.address'))) {
-            Notification::route('mail', config('mail.to.address'))
+        if($email = config('mail.to.address')) {
+            Notification::route('mail', $email)
                 ->notify(new \App\Notifications\ArticleDeleted($event->article));
         }
     }
