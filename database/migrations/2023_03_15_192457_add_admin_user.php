@@ -15,14 +15,14 @@ return new class extends Migration
      */
     public function up()
     {
-        $role = Role::factory([
+        $role = Role::factory()->create([
             'name' => 'admin'
-        ])->create();
+        ]);
 
-        User::factory([
+        User::factory()->create([
             'email' => config('roles.admin'),
             'role_id' => $role
-        ])->create();
+        ]);
     }
 
     /**
@@ -32,7 +32,7 @@ return new class extends Migration
      */
     public function down()
     {
+        User::where('email', config('roles.admin'))->delete();
         Role::where('name', 'admin')->delete();
-        User::where('role_id', 1)->delete();
     }
 };
