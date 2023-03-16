@@ -4,9 +4,9 @@
 
 @section('inner.content')
         <div class="space-y-4">
-
-            <a class="hover:text-orange" href="{{ route('articles.edit', $article->slug) }}">Редактирование новости</a>
-
+            @admin(auth()->user())
+                <a class="hover:text-orange" href="{{ route('articles.edit', $article->slug) }}">Редактирование новости</a>
+            @endadmin
             <img src="{{ Storage::url($article->image->path) }}" alt="" title="">
 
             <div>
