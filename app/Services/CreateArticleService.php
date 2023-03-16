@@ -33,7 +33,5 @@ class CreateArticleService implements CreateArticleServiceContract
 
             $this->tagsSynchronizer->sync($tags, $article);
         });
-
-        Cache::tags(['articles'])->flush();
     }
 }

@@ -32,7 +32,5 @@ class UpdateArticleService implements UpdateArticleServiceContract
 
             $this->tagsSynchronizer->sync($tags, $article);
         });
-
-        Cache::tags(['articles'])->flush();
     }
 }
