@@ -37,4 +37,9 @@ class BaseRepository implements EloquentRepositoryContract
     {
         return $this->model->paginate($paginatesCount);
     }
+
+    public function getCount(): int
+    {
+        return $this->model->count();
+    }
 }

@@ -7,6 +7,7 @@ use App\Models\Article;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class ArticleRepository extends BaseRepository implements ArticleRepositoryContract
 {
@@ -42,5 +43,20 @@ class ArticleRepository extends BaseRepository implements ArticleRepositoryContr
         $cacheDuration = now()->addHour();
         return Cache::tags(['catalog', 'articles', 'tags', 'images'])
             ->remember($cacheKey, $cacheDuration, fn() => $this->model->with('tags','image')->firstWhere('slug', $slug));
+    }
+
+    public function longestArticle(): Article
+    {
+        return $this->model->select(['id', 'title', DB::raw('LENGTH(body) as length')])->orderByDesc('length')->first();
+    }
+
+    public function shortestArticle(): Article
+    {
+        return $this->model->select(['id', 'title', DB::raw('LENGTH(body) as length')])->orderBy('length')->first();
+    }
+
+    public function taggedArticle(): Article
+    {
+        return $this->model->select(['id', 'title'])->withCount('tags')->orderByDesc('tags_count')->first();
     }
 }
