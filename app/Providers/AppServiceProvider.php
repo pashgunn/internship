@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\View\Layouts\Footer;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -30,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         Paginator::defaultView('pagination::default');
+
+        Blade::component('layouts.footer', Footer::class);
     }
 
     /**

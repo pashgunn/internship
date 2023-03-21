@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contracts\Repositories\ArticleRepositoryContract;
 use App\Contracts\Repositories\BannerRepositoryContract;
 use App\Contracts\Repositories\CarRepositoryContract;
+use App\Contracts\Repositories\SalonRepositoryContract;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
 
@@ -13,7 +14,8 @@ class PagesController extends Controller
     public function __construct(
         private readonly ArticleRepositoryContract $articleRepository,
         private readonly CarRepositoryContract     $carRepository,
-        private readonly BannerRepositoryContract $bannerRepository
+        private readonly BannerRepositoryContract $bannerRepository,
+        private readonly SalonRepositoryContract $salonRepository
     ) {
     }
 
@@ -71,7 +73,8 @@ class PagesController extends Controller
 
     public function salons(): View
     {
-        return view('pages.salons');
+        $salons = $this->salonRepository->allSalons();
+        return view('pages.salons', compact('salons'));
     }
 
     public function account(): View

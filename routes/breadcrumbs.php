@@ -36,6 +36,11 @@ Breadcrumbs::for('for-clients', function (BreadcrumbTrail $trail) {
     $trail->push('Для клиентов', route('for-clients'));
 });
 
+Breadcrumbs::for('salons', function (BreadcrumbTrail $trail) {
+    $trail->parent('homepage');
+    $trail->push('Салоны', route('salons'));
+});
+
 Breadcrumbs::for('account', function (BreadcrumbTrail $trail) {
     $trail->push('Аккаунт', route('account'));
 });
