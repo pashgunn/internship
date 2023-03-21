@@ -11,7 +11,8 @@ class SalonsClientService implements SalonsClientServiceContract
 {
     public function __construct(
         private readonly string $login,
-        private readonly string $password
+        private readonly string $password,
+        private readonly string $baseUrl
     ) {
     }
 
@@ -19,9 +20,9 @@ class SalonsClientService implements SalonsClientServiceContract
     {
         try {
             if ($params) {
-                $response = Http::withBasicAuth($this->login, $this->password)->get(config('salons.uri'), $params)->throw()->json();
+                $response = Http::withBasicAuth($this->login, $this->password)->get($this->baseUrl, $params)->throw()->json();
             } else {
-                $response = Http::withBasicAuth($this->login, $this->password)->get(config('salons.uri'))->throw()->json();
+                $response = Http::withBasicAuth($this->login, $this->password)->get($this->baseUrl)->throw()->json();
             }
         } catch (RequestException $e) {
             return [];

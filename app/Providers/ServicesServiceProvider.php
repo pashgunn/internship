@@ -28,7 +28,7 @@ class ServicesServiceProvider extends ServiceProvider
         $this->app->singleton(UpdateArticleServiceContract::class, UpdateArticleService::class);
         $this->app->singleton(StatisticsServiceContract::class, StatisticsService::class);
         $this->app->singleton(SalonsClientServiceContract::class, function () {
-            return new SalonsClientService(config('salons.login'), config('salons.password'));
+            return new SalonsClientService(config('salons.login'), config('salons.password'), config('salons.uri'));
         });
     }
 
