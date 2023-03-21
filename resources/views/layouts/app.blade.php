@@ -23,7 +23,7 @@
     <main class="flex-1 container mx-auto bg-white">
         @yield('content')
     </main>
-    @include('layouts.footer')
+    <x-layouts.footer/>
 </div>
 
 </body>
