@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -43,8 +45,19 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (ValidationException $e) {
+            $message = $e->errors();
+            return response()->json([
+                'success' => false,
+                'errors' => $message
+            ], 400);
+        });
+
+        $this->renderable(function (NotFoundHttpException $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => 'The car with the specified id was not found'
+            ], 404);
         });
     }
 }
