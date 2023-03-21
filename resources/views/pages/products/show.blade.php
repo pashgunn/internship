@@ -1,50 +1,6 @@
 @extends('layouts.app')
 
-@push('scripts')
-    <script>
-        $(function () {
-            $('[data-slick-carousel-detail]').each(function () {
-                let $carousel = $(this);
-
-                $carousel.find('[data-slick-carousel-detail-items]').slick({
-                    dots: true,
-                    arrows: false,
-                    appendDots: $carousel.find('[data-slick-carousel-detail-pager]'),
-                    rows: 0,
-                    customPaging: function (slick, index) {
-                        let imageSrc = slick.$slides[index].src;
-
-                        return `
-<div class="relative">
-  <svg xmlns="http://www.w3.org/2000/svg" class="active-arrow absolute -top-6 left-2/4 -ml-3 text-orange h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-  </svg>
-  <span class="inline-block border rounded cursor-pointer"><img class="h-20 w-40 object-cover" src="${imageSrc}" alt="" title=""></span>
-</div>`;
-                    }
-                })
-            })
-        })
-    </script>
-@endpush
-
-@section('nav')
-    <x-panels.nav>
-        <x-panels.nav-element route="homepage">
-            Главная
-        </x-panels.nav-element>
-        <x-panels.nav-element route="products.index">
-            Каталог
-        </x-panels.nav-element>
-        <x-panels.nav-element route="products.index">
-            Легковые
-        </x-panels.nav-element>
-        <x-panels.nav-element route="products.index">
-            Седан
-        </x-panels.nav-element>
-        <span>{{ $product->name }}</span>
-    </x-panels.nav>
-@endsection
+@section('page.title', $product->name)
 
 @section('content')
         <div class="p-4">
@@ -67,12 +23,12 @@
                             <p class="font-bold text-2xl text-orange">{{ number_format($product->price, 0, '', ' ') }} ₽</p>
                             <div class="mt-4 block">
                                 <form>
-                                    <button class="inline-block bg-orange hover:bg-opacity-70 focus:outline-none text-white font-bold py-2 px-4 rounded">
+                                    <x-input.button-orange>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                         </svg>
                                         Купить
-                                    </button>
+                                    </x-input.button-orange>
                                 </form>
                             </div>
                         </div>

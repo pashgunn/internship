@@ -1,21 +1,6 @@
 @extends('layouts.app')
 
-@section('nav')
-    <x-panels.nav>
-        <x-panels.nav-element route="homepage">
-            Главная
-        </x-panels.nav-element>
-        <x-panels.nav-element route="products.index">
-            Каталог
-        </x-panels.nav-element>
-        @isset($id)
-            <x-panels.nav-element route="products.index">
-                Легковые
-            </x-panels.nav-element>
-            <span>Седаны</span>
-        @endisset
-    </x-panels.nav>
-@endsection
+@section('page.title', 'Каталог')
 
 @section('content')
 <div class="p-4">

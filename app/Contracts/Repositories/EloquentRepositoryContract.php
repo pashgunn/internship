@@ -11,4 +11,5 @@ interface EloquentRepositoryContract
     public function delete(string $id): bool;
     public function find(int $id): ?Model;
     public function getCatalog(int $paginatesCount): LengthAwarePaginator;
+    public function getCount(): int;
 }

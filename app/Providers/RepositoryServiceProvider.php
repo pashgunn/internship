@@ -8,6 +8,7 @@ use App\Contracts\Repositories\CarRepositoryContract;
 use App\Contracts\Repositories\CategoryRepositoryContract;
 use App\Contracts\Repositories\EloquentRepositoryContract;
 use App\Contracts\Repositories\ImageRepositoryContract;
+use App\Contracts\Repositories\SalonRepositoryContract;
 use App\Contracts\Repositories\TagRepositoryContract;
 use App\Repositories\Eloquent\ArticleRepository;
 use App\Repositories\Eloquent\BannerRepository;
@@ -15,6 +16,7 @@ use App\Repositories\Eloquent\BaseRepository;
 use App\Repositories\Eloquent\CarRepository;
 use App\Repositories\Eloquent\CategoryRepository;
 use App\Repositories\Eloquent\ImageRepository;
+use App\Repositories\Eloquent\SalonRepository;
 use App\Repositories\Eloquent\TagRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -34,6 +36,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(CategoryRepositoryContract::class, CategoryRepository::class);
         $this->app->singleton(ImageRepositoryContract::class, ImageRepository::class);
         $this->app->singleton(BannerRepositoryContract::class, BannerRepository::class);
+        $this->app->singleton(SalonRepositoryContract::class, SalonRepository::class);
     }
 
     /**

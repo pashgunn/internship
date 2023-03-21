@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\View\Layouts\Footer;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         Paginator::defaultView('pagination::default');
+
+        Blade::component('layouts.footer', Footer::class);
     }
 
     /**
@@ -38,5 +42,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Blade::if('admin', function () {
+            return auth()->user()?->role?->name === 'admin';
+        });
     }
 }

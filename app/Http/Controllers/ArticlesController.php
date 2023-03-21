@@ -7,10 +7,10 @@ use App\Contracts\Repositories\CreateArticleServiceContract;
 use App\Contracts\Repositories\UpdateArticleServiceContract;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\TagRequest;
+use App\Models\Article;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class ArticlesController extends Controller
 {
@@ -29,6 +29,7 @@ class ArticlesController extends Controller
 
     public function create(): View
     {
+        $this->authorize('create', Article::class);
         return view('pages.articles.create');
     }
 
@@ -40,6 +41,7 @@ class ArticlesController extends Controller
 
     public function store(ArticleRequest $articleRequest, TagRequest $tagRequest): RedirectResponse
     {
+        $this->authorize('create', Article::class);
         $this->createArticleService->create(
             $articleRequest,
             $tagRequest->getTags(),
@@ -52,12 +54,14 @@ class ArticlesController extends Controller
 
     public function edit($slug): View
     {
+        $this->authorize('update', Article::class);
         $article = $this->articleRepository->findBySlug($slug);
         return view('pages.articles.edit', compact('article'));
     }
 
     public function update($slug, ArticleRequest $articleRequest, TagRequest $tagRequest): RedirectResponse
     {
+        $this->authorize('update', Article::class);
         $this->updateArticleService->update(
             $this->articleRepository->findBySlug($slug),
             $articleRequest,
@@ -71,10 +75,8 @@ class ArticlesController extends Controller
 
     public function destroy($article): RedirectResponse
     {
+        $this->authorize('delete', Article::class);
         $this->articleRepository->delete($article);
-
-        //delete cache for article
-        Cache::tags(['articles', 'images', 'tags'])->flush();
 
         return redirect()->route('articles.index')
             ->with('success', 'Новость успешно удалена');
